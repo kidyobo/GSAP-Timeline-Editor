@@ -12,24 +12,24 @@
         <span class="glyphicon glyphicon-stop action-button" v-on:click="stopAnimation()"></span>
       </div>
       <div class="code-section header-padding">
-          <ul class="site-nav list-inline">
-            <li><span v-on:click="showEmbedCode()" class="code">Code</span>
-                <div class="relative">
-                <div class="embed-code" v-if="showCode">
-                    var tl = new TimelineLite();
+        <ul class="site-nav list-inline">
+          <li><span v-on:click="showEmbedCode()" class="code">Code</span>
+            <div class="relative">
+              <div class="embed-code" v-if="showCode">
+                var tl = new TimelineLite();
                     
-                    <p v-for="(keyframe, index) in keyframes">
-                    tl.to($('#demo'), {{keyframe.duration}}, {
-                        backgroundColor: "{{keyframe.backgroundColor}}",
-                        left: {{keyframe.left}},
-                        opacity: {{keyframe.opacity}},
-                        top: {{keyframe.top}},
-                        width: "{{keyframe.width + 'px'}}"
-                    });
-                    </p>
+                <p v-for="(keyframe, index) in keyframes">
+                tl.to($('#demo'), {{keyframe.duration}}, {
+                    backgroundColor: "{{keyframe.backgroundColor}}",
+                    left: {{keyframe.left}},
+                    opacity: {{keyframe.opacity}},
+                    top: {{keyframe.top}},
+                    width: "{{keyframe.width + 'px'}}"
+                });
+                </p>
 
-                </div>
-                </div>
+              </div>
+            </div>
             </li>
           </ul>
         </div>
@@ -97,17 +97,15 @@
                     </div>
                     <div class="color-bar"></div>
                     <div class="timeline-bars">
-                        <!--<div v-for="i in 100" class="timeline-frame-bar" v-bind:style="{left: i * secondToPixels + 'px'}">
-                            <div v-if="(i - 1) % incrementTime === 0">
-                                {{ fancyTimeFormat(i - 1) }}
-                            </div>
-                        </div>-->
-                        <span v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
+                        <div v-for="i in 100" class="timeline-frame" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
+                            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
+                        </div>
+                        <div v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
                             <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar">
 
                             </div>
-                        </span>
-                        <div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>
+                        </div>
+                        <!--<div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>-->
                         <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
                             <div v-if="(i - 1) % incrementTime === 0">
                                 {{ fancyTimeFormat(i - 1) }}

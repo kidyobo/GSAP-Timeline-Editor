@@ -139,11 +139,16 @@ section.intro {
     position: absolute;
 }
 
+.timeline-frame {
+    height: 100%;
+    position: absolute;
+    width: 1px;
+}
+
 .timeline-frame-bar {
     //background-color: #dcdcdc;
     background-color: #FAFAFA;
     height: 100%;
-    position: absolute;
     width: 1px;
 }
 
