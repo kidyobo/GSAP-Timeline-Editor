@@ -53,7 +53,7 @@
         <div class="form-group">
             <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
         </div>
-        <div v-if="backgroundColor.show" class="form-group">
+        <div class="form-group">
             <label>Background Color:</label>
             <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
         </div>
@@ -239,7 +239,7 @@ export default {
                             that.totalSeconds = that.keyframes[that.keyframes.length - 1].time;
 
                             that.sortKeyframes();
-                            that.updateTimeline();
+                            //that.updateTimeline();
 
                         }
                     });
