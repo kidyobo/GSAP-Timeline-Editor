@@ -11,7 +11,7 @@
         <span v-if="animationPlaying" class="glyphicon glyphicon-pause action-button" v-on:click="pauseAnimation()"></span>
         <span class="glyphicon glyphicon-stop action-button" v-on:click="stopAnimation()"></span>
       </div>
-      <div class="code-section header-padding">
+      <div class="code-section header-padding text-right">
         <ul class="site-nav list-inline">
           <li><span v-on:click="showEmbedCode()" class="code">Code</span>
             <div class="relative">
@@ -34,56 +34,56 @@
         </ul>
       </div>
     </header>
-        <div class="wrapper">
-            <aside class="sidebar">
-                <div class="form-group">
-                    <label>Properties:</label>
-                    <select class="form-control" v-model="properties">
-                    <option>Background Color</option>
-                    <option>Height</option>
-                    <option>Left</option>
-                    <option>Opacity</option>
-                    <option>Top</option>
-                    <option>Width</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
-                </div>
-                <div class="form-group">
-                    <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
-                </div>
-                <div v-if="backgroundColor.show" class="form-group">
-                    <label>Background Color:</label>
-                    <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Height:</label>
-                    <input type="number" class="form-control" v-model="height" v-on:keyup="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Left:</label>
-                    <input type="number" class="form-control" v-model="left" v-on:keyup="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Opacity:</label>
-                    <input type="number" class="form-control" v-model="opacity" min="0" max="1" v-on:keyup="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Top:</label>
-                    <input type="number" class="form-control" v-model="top" v-on:keyup="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Width:</label>
-                    <input type="number" class="form-control" v-model="width" v-on:keyup="addKeyframe()" />
-                </div>
-                <div class="form-group">
-                    <label>Keyframes:</label>
-                    <div v-for="(keyframe, index) in keyframes">
-                        {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
-                    </div>
-                </div>
-            </aside>
+    <div class="wrapper">
+      <aside class="sidebar">
+        <div class="form-group">
+            <label>Properties:</label>
+            <select class="form-control" v-model="properties">
+            <option>Background Color</option>
+            <option>Height</option>
+            <option>Left</option>
+            <option>Opacity</option>
+            <option>Top</option>
+            <option>Width</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
+        </div>
+        <div class="form-group">
+            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+        </div>
+        <div v-if="backgroundColor.show" class="form-group">
+            <label>Background Color:</label>
+            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Height:</label>
+            <input type="number" class="form-control" v-model="height" v-on:keyup="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Left:</label>
+            <input type="number" class="form-control" v-model="left" v-on:keyup="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Opacity:</label>
+            <input type="number" class="form-control" v-model="opacity" min="0" max="1" v-on:keyup="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Top:</label>
+            <input type="number" class="form-control" v-model="top" v-on:keyup="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Width:</label>
+            <input type="number" class="form-control" v-model="width" v-on:keyup="addKeyframe()" />
+        </div>
+        <div class="form-group">
+            <label>Keyframes:</label>
+            <div v-for="(keyframe, index) in keyframes">
+                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
+            </div>
+        </div>
+    </aside>
             <div class="main">
               <div id="demo"></div>
             </div>
@@ -384,6 +384,9 @@ export default {
                 this.width = parseInt(document.getElementById("demo").style.width, 10);
 
                 //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
+                if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
+                    this.tl.progress(this.keyframes[0].time / this.totalSeconds)
+                }
                 $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
                 //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
 
