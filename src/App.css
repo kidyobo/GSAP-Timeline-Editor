@@ -3,6 +3,10 @@
   font-size: 24px;
 }
 
+.action-buttons {
+    width: 60%;
+}
+
 .add-property-btn {
     background-color: #8BC34A;
     border: 1px solid #77ac39;
@@ -16,7 +20,7 @@
 aside.sidebar {
     background-color: #9E9E9E;
     color: #fff;
-    grid-column: 1;
+    grid-column: 2 / 1 span;
     grid-row: 1 / span 2;
     height: 100vh;
     overflow: scroll;
@@ -31,6 +35,10 @@ body {
     background-color: #8BC34A;
     cursor: pointer;
     padding: 20px 10px;
+}
+
+.code-section {
+    width: 30%;
 }
 
 .color-bar {
@@ -62,8 +70,9 @@ body {
 }
 
 header.editor-header {
-    background-color: #616161;
+    background-color: #424242;
     color: #fff;
+    display: flex;
     height: 50px;
 }
 
@@ -94,13 +103,20 @@ header.site-header {
 }
 
 .logo {
+    background-color: #8BC34A;
+    display: inline-block;
     font-size: 24px;
-    padding-top: 5px;
+    height: 100%;
+    padding: 5px;
+}
+
+.logo-section {
+    width: 30%;
 }
 
 .main {
     float: left;
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
 }
 
@@ -118,11 +134,9 @@ section.intro {
     grid-column: 2;
     grid-row: 2;
     height: 200px;
-    left: 300px;
     overflow: scroll;
     overflow-y: hidden;
     position: absolute;
-    width: 100%;
 }
 
 .timeline-frame-bar {
@@ -160,6 +174,6 @@ ul.site-nav li a {
 
 .wrapper {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: 1fr 300px;
     grid-template-rows: 1fr 100%;
 }

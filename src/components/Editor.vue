@@ -1,43 +1,39 @@
 <template>
-    <div>
-        <header class="editor-header">
-          <div class="container">
-            <div class="row">
-                <div class="col-sm-3 logo">
-                    GSAP Editor
-                </div>
-                <div class="col-sm-6 text-center header-padding">
-                    <span v-if="!animationPlaying" class="glyphicon glyphicon-play action-button" v-on:click="playAnimation()"></span>
-                    <span v-if="animationPlaying" class="glyphicon glyphicon-pause action-button" v-on:click="pauseAnimation()"></span>
-                    <span class="glyphicon glyphicon-stop action-button" v-on:click="stopAnimation()"></span>
-                </div>
-                <div class="col-sm-3 header-padding">
-                  <ul class="site-nav list-inline">
-                    <li><span v-on:click="showEmbedCode()" class="code">Code</span>
-                        <div class="relative">
-                        <div class="embed-code" v-if="showCode">
-                            var tl = new TimelineLite();
-                            
-                            <p v-for="(keyframe, index) in keyframes">
-                            tl.to($('#demo'), {{keyframe.duration}}, {
-                                backgroundColor: "{{keyframe.backgroundColor}}",
-                                left: {{keyframe.left}},
-                                opacity: {{keyframe.opacity}},
-                                top: {{keyframe.top}},
-                                width: "{{keyframe.width + 'px'}}"
-                            });
-                            </p>
+  <div>
+    <header class="editor-header">
+      <div class="logo-section">
+        <div class="logo">
+          GSAP Editor
+        </div>
+      </div>
+      <div class="action-buttons text-center header-padding">
+        <span v-if="!animationPlaying" class="glyphicon glyphicon-play action-button" v-on:click="playAnimation()"></span>
+        <span v-if="animationPlaying" class="glyphicon glyphicon-pause action-button" v-on:click="pauseAnimation()"></span>
+        <span class="glyphicon glyphicon-stop action-button" v-on:click="stopAnimation()"></span>
+      </div>
+      <div class="code-section header-padding">
+          <ul class="site-nav list-inline">
+            <li><span v-on:click="showEmbedCode()" class="code">Code</span>
+                <div class="relative">
+                <div class="embed-code" v-if="showCode">
+                    var tl = new TimelineLite();
+                    
+                    <p v-for="(keyframe, index) in keyframes">
+                    tl.to($('#demo'), {{keyframe.duration}}, {
+                        backgroundColor: "{{keyframe.backgroundColor}}",
+                        left: {{keyframe.left}},
+                        opacity: {{keyframe.opacity}},
+                        top: {{keyframe.top}},
+                        width: "{{keyframe.width + 'px'}}"
+                    });
+                    </p>
 
-                        </div>
-                        </div>
-                    </li>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Editor</a></li>
-                  </ul>
                 </div>
-            </div>
-          </div>
-        </header>
+                </div>
+            </li>
+          </ul>
+        </div>
+    </header>
         <div class="wrapper">
             <aside class="sidebar">
                 <div class="form-group">
@@ -91,6 +87,7 @@
             <div class="main">
               <div id="demo"></div>
             </div>
+
             <div class="timeline">
                 <div class="timeline-inner">
                     <div v-for="(keyframe, index) in keyframes" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
@@ -272,14 +269,50 @@ export default {
 
                 return ret;
             },
-            setLayout: function() {
+            playAnimation() {
 
-                var that = this;
+                if (this.animationComplete === true) {
+
+                    this.tl.restart();
+                    this.animationComplete = false;
+
+                }
+
+                this.animationPlaying = true;
+
+                this.tl.play();
+
+            },
+            pauseAnimation() {
+
+                this.animationPlaying = false;
+                this.tl.pause();
+
+            },
+            removeKeyframe: function(index) {
+
+                this.keyframes.splice(index, 1);
+                this.updateTimeline();
+
+            },
+            resizeLayout: function() {
+                $(".timeline").css({
+                    width: ($(window).width() - 300)
+                });
 
                 $('.sidebar').css({
                     height: $(window).height() - $('header').height()
                 });
+            },
+            setLayout: function() {
 
+                var that = this;
+
+                $(window).resize(function() {
+                    that.resizeLayout();
+                });
+
+                this.resizeLayout();
 
                 $('.timeline').mousewheel(function(e) {
                     // if delta y is up
@@ -306,32 +339,6 @@ export default {
 
                     }
                 });
-            },
-            playAnimation() {
-
-                if (this.animationComplete === true) {
-
-                    this.tl.restart();
-                    this.animationComplete = false;
-
-                }
-
-                this.animationPlaying = true;
-
-                this.tl.play();
-
-            },
-            pauseAnimation() {
-
-                this.animationPlaying = false;
-                this.tl.pause();
-
-            },
-            removeKeyframe: function(index) {
-
-                this.keyframes.splice(index, 1);
-                this.updateTimeline();
-
             },
             showEmbedCode: function() {
                 if (this.showCode === false) {
