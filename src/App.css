@@ -102,6 +102,11 @@ header.site-header {
     margin-top: 5px;
 }
 
+.keyframe-diamond:first-of-type {
+    margin-top: 15px;
+}
+
+
 .logo {
     background-color: #8BC34A;
     display: inline-block;
