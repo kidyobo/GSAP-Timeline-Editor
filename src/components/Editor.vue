@@ -239,7 +239,9 @@ export default {
                             that.totalSeconds = that.keyframes[that.keyframes.length - 1].time;
 
                             that.sortKeyframes();
-                            //that.updateTimeline();
+                            that.tl.progress(that.keyframes[0].time / that.totalSeconds);
+                            that.updateDuration();
+                            that.updateTotalSeconds();
 
                         }
                     });
@@ -447,7 +449,7 @@ export default {
 
                 });
 
-                this.totalSeconds = this.keyframes[this.keyframes.length - 1].time;
+                this.updateTotalSeconds();
 
                 this.tl.eventCallback("onUpdate", this.updateSlider.bind(this));
 
@@ -460,7 +462,10 @@ export default {
                         return i;
                     }
                 });
-            }    
+            },
+            updateTotalSeconds() {
+                this.totalSeconds = this.keyframes[this.keyframes.length - 1].time;
+            }
         }
     },
     mounted() {
