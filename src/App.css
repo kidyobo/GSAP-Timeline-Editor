@@ -18,8 +18,9 @@
 }
 
 .animation-property {
-    border-bottom: 1px solid #8c8c8c;
-    border-top: 1px solid #999999;
+    border-bottom: 1px solid #808080;
+    border-top: 1px solid #8c8c8c;
+    padding: 15px;
 }
 
 aside.sidebar {
@@ -29,7 +30,7 @@ aside.sidebar {
     grid-row: 1 / span 2;
     height: 100vh;
     overflow: scroll;
-    padding: 15px 15px 0 15px;
+    padding: 15px 0;
 }
 
 body {

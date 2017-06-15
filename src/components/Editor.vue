@@ -37,52 +37,70 @@
     </header>
     <div class="wrapper">
       <aside class="sidebar">
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Properties:</label>
             <select class="form-control" v-model="properties">
-            <option>Background Color</option>
-            <option>Height</option>
-            <option>Left</option>
-            <option>Opacity</option>
-            <option>Top</option>
-            <option>Width</option>
+              <option>Background Color</option>
+              <option>Height</option>
+              <option>Left</option>
+              <option>Opacity</option>
+              <option>Top</option>
+              <option>Width</option>
             </select>
-        </div>
-        <div class="form-group animation-property">
+          </div>
+          <div class="form-group">
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
+          </div>
         </div>
-        <div class="form-group animation-property">
+        <div class="animation-property">
+          <div class="form-group">
             <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+          </div>
         </div>
-        <div class="form-group animation-property">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Background Color:</label>
             <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group animation-property">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Height:</label>
             <input type="number" class="form-control" v-model="height" v-on:keyup="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Left:</label>
             <input type="number" class="form-control" v-model="left" v-on:keyup="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Opacity:</label>
             <input type="number" class="form-control" v-model="opacity" min="0" max="1" v-on:keyup="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Top:</label>
             <input type="number" class="form-control" v-model="top" v-on:keyup="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Width:</label>
             <input type="number" class="form-control" v-model="width" v-on:keyup="addKeyframe()" />
+          </div>
         </div>
-        <div class="form-group">
+        <div class="animation-property">
+          <div class="form-group">
             <label>Keyframes:</label>
             <div v-for="(keyframe, index) in keyframes">
                 {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
             </div>
+          r</div>
         </div>
     </aside>
             <div class="main">
@@ -169,9 +187,13 @@ export default {
             top: 0,
             width: 100,
             addProperty: function() {
+
                 if (this.properties === "Background Color") {
+
                     this.backgroundColor.show = true;
+
                 }
+
             },
             addKeyframe: function() {
 
@@ -239,10 +261,13 @@ export default {
                             that.keyframes[index].time = ui.position.left / that.secondToPixels;
                             that.totalSeconds = that.keyframes[that.keyframes.length - 1].time;
 
-                            that.sortKeyframes();
+                            /*that.sortKeyframes();
                             that.tl.progress(that.keyframes[0].time / that.totalSeconds);
                             that.updateDuration();
-                            that.updateTotalSeconds();
+                            that.updateKeyframes();
+                            that.updateTotalSeconds();*/
+
+                            that.updateTimeline();
 
                         }
                     });
@@ -342,16 +367,24 @@ export default {
                 });
             },
             showEmbedCode: function() {
+
                 if (this.showCode === false) {
+
                     this.showCode = true;
+
                 } else {
+
                     this.showCode = false;
+
                 }
+
             },
             sortKeyframes: function() {
 
                 this.keyframes.sort(function(a, b) {
+
                     return parseFloat(a.time) - parseFloat(b.time);
+
                 });
 
             },
@@ -365,55 +398,27 @@ export default {
 
             },
             updateDuration: function() {
+
                 var that = this;
 
                 this.keyframes.forEach(function(keyframe, index) {
 
                     if (index === 0) {
+
                         that.keyframes[index].duration = that.keyframes[index].time;
+
                     } else {
+
                         that.keyframes[index].duration = that.keyframes[index].time - that.keyframes[index - 1].time;
+
                     }
 
                 });
-            },
-            updateSlider() {
-
-                this.frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
-                this.height = parseInt(document.getElementById("demo").style.height, 10);
-                this.left = parseInt(document.getElementById("demo").style.left, 10);
-                this.opacity = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
-                this.top = parseInt(document.getElementById("demo").style.top, 10);
-                this.width = parseInt(document.getElementById("demo").style.width, 10);
-
-                //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
-                if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
-                    this.tl.progress(this.keyframes[0].time / this.totalSeconds)
-                }
-                $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
-                //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
 
             },
-            updateTimeline(frame) {
+            updateKeyframes: function() {
 
                 var that = this;
-
-                this.updateDuration();
-
-                this.animationComplete = false;
-                this.animationPlaying = false;
-
-                if (frame !== undefined) {
-
-                    this.tl.progress(this.frame / (that.totalSeconds * that.secondToPixels));
-
-                }
-
-                this.tl.pause();
-
-                this.tl = undefined;
-
-                this.tl = new TimelineLite();
 
                 var total_keyframes = this.keyframes.length;
 
@@ -450,6 +455,51 @@ export default {
 
                 });
 
+            },
+            updateSlider() {
+
+                this.frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
+                this.height = parseInt(document.getElementById("demo").style.height, 10);
+                this.left = parseInt(document.getElementById("demo").style.left, 10);
+                this.opacity = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
+                this.top = parseInt(document.getElementById("demo").style.top, 10);
+                this.width = parseInt(document.getElementById("demo").style.width, 10);
+
+                //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
+                if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
+                    this.tl.progress(this.keyframes[0].time / this.totalSeconds)
+                }
+                $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
+                //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
+
+            },
+            updateTimeline(frame) {
+
+                var that = this;
+
+                this.updateDuration();
+
+                this.animationComplete = false;
+                this.animationPlaying = false;
+
+                if (frame !== undefined) {
+
+                    this.tl.progress(this.frame / (that.totalSeconds * that.secondToPixels));
+
+                } else {
+                    alert('test')
+                    that.tl.progress(that.keyframes[0].time / that.totalSeconds);
+
+                }
+
+                this.tl.pause();
+
+                this.tl = undefined;
+
+                this.tl = new TimelineLite();
+
+                this.updateKeyframes();
+
                 this.updateTotalSeconds();
 
                 this.tl.eventCallback("onUpdate", this.updateSlider.bind(this));
@@ -458,14 +508,18 @@ export default {
 
             },
             keyframeProperties: function (index) {
-                return $.map(this.keyframes[index], function(v, i){
+                return $.map(this.keyframes[index], function(v, i) {
+
                     if (i !== 'duration') {
                         return i;
                     }
+
                 });
             },
             updateTotalSeconds() {
+
                 this.totalSeconds = this.keyframes[this.keyframes.length - 1].time;
+
             }
         }
     },
