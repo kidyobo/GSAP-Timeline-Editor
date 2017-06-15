@@ -21,6 +21,7 @@
                 <p v-for="(keyframe, index) in keyframes" v-if="index !== 0">
                 tl.to($('#el'), {{keyframe.duration}}, {
                     backgroundColor: "{{keyframe.backgroundColor}}",
+                    height: "{{keyframe.height}}px",
                     left: {{keyframe.left}},
                     opacity: {{keyframe.opacity}},
                     top: {{keyframe.top}},
