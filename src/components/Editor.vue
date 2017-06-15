@@ -48,17 +48,17 @@
             <option>Width</option>
             </select>
         </div>
-        <div class="form-group">
+        <div class="form-group animation-property">
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
         </div>
-        <div class="form-group">
+        <div class="form-group animation-property">
             <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
         </div>
-        <div class="form-group">
+        <div class="form-group animation-property">
             <label>Background Color:</label>
             <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
         </div>
-        <div class="form-group">
+        <div class="form-group animation-property">
             <label>Height:</label>
             <input type="number" class="form-control" v-model="height" v-on:keyup="addKeyframe()" />
         </div>
