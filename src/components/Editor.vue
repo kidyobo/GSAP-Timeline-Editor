@@ -92,7 +92,7 @@
                 <div class="timeline-inner">
                     <div v-for="(keyframe, index) in keyframes" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
                         <div class="keyframe-diamond">
-                            <p v-for="prop in keyframeProperties(index)">&diams;</p>
+                            <div v-for="prop in keyframeProperties(index)">&diams;</div>
                         </div>
                     </div>
                     <div class="color-bar"></div>

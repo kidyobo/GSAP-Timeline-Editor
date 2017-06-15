@@ -97,9 +97,9 @@ header.site-header {
 
 .keyframe-diamond {
     color: #FAFAFA;
-    font-size: 16px;
-    margin-left: -4px;
-    margin-top: 15px;
+    font-size: 12px;
+    margin-left: -3px;
+    margin-top: 5px;
 }
 
 .logo {
@@ -135,7 +135,7 @@ section.intro {
     grid-row: 2;
     height: 200px;
     overflow: scroll;
-    overflow-y: hidden;
+    //overflow-y: hidden;
     position: absolute;
 }
 
