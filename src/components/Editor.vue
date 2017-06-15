@@ -52,7 +52,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-success btn-block" v-on:click="addProperty()">Add Property</button>
+                    <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
                 </div>
                 <div class="form-group">
                     <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
@@ -100,11 +100,18 @@
                     </div>
                     <div class="color-bar"></div>
                     <div class="timeline-bars">
-                        <div v-for="i in 100" class="timeline-frame-bar" v-bind:style="{left: i * secondToPixels + 'px'}">
-                            
-                        </div>
+                        <!--<div v-for="i in 100" class="timeline-frame-bar" v-bind:style="{left: i * secondToPixels + 'px'}">
+                            <div v-if="(i - 1) % incrementTime === 0">
+                                {{ fancyTimeFormat(i - 1) }}
+                            </div>
+                        </div>-->
+                        <span v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
+                            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar">
+
+                            </div>
+                        </span>
                         <div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>
-                        <span v-for="i in 10" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
+                        <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
                             <div v-if="(i - 1) % incrementTime === 0">
                                 {{ fancyTimeFormat(i - 1) }}
                             </div>
@@ -278,9 +285,9 @@ export default {
                     // if delta y is up
                     if (e.deltaY === 1) {
 
-                        that.secondToPixels += 10;
+                        that.secondToPixels += 1;
 
-                        if ((that.secondToPixels % 200) === 0) {
+                        if ((that.secondToPixels % 20) === 0) {
 
                             that.incrementTime -= 1;
 
@@ -289,9 +296,9 @@ export default {
                     // if delta y is down
                     } else if (e.deltaY === -1) {
 
-                        that.secondToPixels -= 10;
+                        that.secondToPixels -= 1;
 
-                        if ((that.secondToPixels % 200) === 0) {
+                        if ((that.secondToPixels % 20) === 0) {
 
                             that.incrementTime += 1;
 

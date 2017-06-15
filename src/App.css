@@ -3,6 +3,16 @@
   font-size: 24px;
 }
 
+.add-property-btn {
+    background-color: #8BC34A;
+    border: 1px solid #77ac39;
+}
+
+.add-property-btn:hover {
+    background-color: #77ac39;
+    border: 1px solid #5c862d;
+}
+
 aside.sidebar {
     background-color: #9E9E9E;
     color: #fff;
@@ -20,8 +30,7 @@ body {
 .code {
     background-color: #8BC34A;
     cursor: pointer;
-    height: 50px;
-    padding: 22px 10px;
+    padding: 20px 10px;
 }
 
 .color-bar {
@@ -111,6 +120,7 @@ section.intro {
     height: 200px;
     left: 300px;
     overflow: scroll;
+    overflow-y: hidden;
     position: absolute;
     width: 100%;
 }
