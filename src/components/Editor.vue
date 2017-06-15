@@ -18,8 +18,8 @@
               <div class="embed-code" v-if="showCode">
                 var tl = new TimelineLite();
                     
-                <p v-for="(keyframe, index) in keyframes">
-                tl.to($('#demo'), {{keyframe.duration}}, {
+                <p v-for="(keyframe, index) in keyframes" v-if="index !== 0">
+                tl.to($('#el'), {{keyframe.duration}}, {
                     backgroundColor: "{{keyframe.backgroundColor}}",
                     left: {{keyframe.left}},
                     opacity: {{keyframe.opacity}},
@@ -30,9 +30,9 @@
 
               </div>
             </div>
-            </li>
-          </ul>
-        </div>
+          </li>
+        </ul>
+      </div>
     </header>
         <div class="wrapper">
             <aside class="sidebar">
