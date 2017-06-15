@@ -487,7 +487,7 @@ export default {
                     this.tl.progress(this.frame / (that.totalSeconds * that.secondToPixels));
 
                 } else {
-                    alert('test')
+
                     that.tl.progress(that.keyframes[0].time / that.totalSeconds);
 
                 }
