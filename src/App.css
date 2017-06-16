@@ -67,6 +67,8 @@ body {
 
 .element-sidebar {
     background-color: #212121;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid #fff;
     color: #fff;
     grid-column: 1;
     grid-row: 1 / span 2;

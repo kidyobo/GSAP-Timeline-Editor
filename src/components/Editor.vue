@@ -343,7 +343,7 @@ export default {
             },
             resizeLayout: function() {
                 $(".timeline").css({
-                    width: ($(window).width() - 275)
+                    width: ($(window).width() - $('.sidebar').width())
                 });
 
                 $('.sidebar').css({
