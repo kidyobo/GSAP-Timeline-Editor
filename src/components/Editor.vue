@@ -34,6 +34,9 @@
       </div>
     </header>
     <div class="wrapper">
+      <div class="element-sidebar">
+        #el
+      </div>
       <aside class="sidebar">
         <div class="animation-property">
           <div class="form-group">
