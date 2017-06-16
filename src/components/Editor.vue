@@ -40,7 +40,7 @@
         <div class="animation-property">
           <div class="form-group">
             <label>Properties:</label>
-            <select class="form-control" v-model="properties">
+            <select class="form-control" v-model="properties_select">
               <option>Background Color</option>
               <option>Height</option>
               <option>Left</option>
@@ -53,11 +53,13 @@
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
           </div>
         </div>
+        <!--
         <div class="animation-property">
           <div class="form-group">
             <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
           </div>
         </div>
+        -->
         <div class="animation-property">
           <div class="form-group">
             <label>Background Color:</label>
@@ -116,7 +118,7 @@
                     </div>
                     <div class="color-bar"></div>
                     <div class="timeline-bars">
-                        <div v-for="i in 100" class="timeline-frame" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
+                        <div v-for="i in 1000" class="timeline-frame" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
                             <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
                         </div>
                         <div v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
@@ -179,7 +181,15 @@ export default {
             ],
             left: 200,
             opacity: 1.0,
-            properties: "",
+            properties: {
+                backgroundColor: {
+                    value: "#333333"
+                },
+                height: {
+                    value: 100
+                }
+            },
+            properties_select: "",
             secondToPixels: 100,
             showCode: false,
             timelineBars: 100,
@@ -188,7 +198,7 @@ export default {
             width: 100,
             addProperty: function() {
 
-                if (this.properties === "Background Color") {
+                if (this.properties_select === "Background Color") {
 
                     this.backgroundColor.show = true;
 
