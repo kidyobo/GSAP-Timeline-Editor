@@ -45,6 +45,98 @@
       </context-menu>
 
       <aside class="sidebar">
+        <div><span class="glyphicon glyphicon-cog"></span> Properties</div>
+        
+        <!--
+        <div class="animation-property">
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+          </div>
+        </div>
+        -->
+        <div class="animation-property">
+            <div class="form-group row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            X
+                        </div>
+                        <div class="col-xs-9">
+                            <input size="1" class="form-control input-sm" type="number" v-model="left" v-on:keyup="addKeyframe()">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            Y
+                        </div>
+                        <div class="col-xs-9">
+                            <input size="1" class="form-control input-sm" type="number" v-model="top" v-on:keyup="addKeyframe()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            W
+                        </div>
+                        <div class="col-xs-9">
+                            <input size="1" class="form-control input-sm" type="number" v-model="width" v-on:keyup="addKeyframe()">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            H
+                        </div>
+                        <div class="col-xs-9">
+                            <input size="1" class="form-control input-sm" type="number" v-model="height" v-on:keyup="addKeyframe()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-xs-6">
+                    Rotation
+                </div>
+                <div class="col-xs-6">
+                    <input size="1" class="form-control input-sm" type="number">
+                </div>
+            </div>
+        </div>
+        <div class="animation-property">
+          <div class="form-group">
+            <label>Background Color:</label>
+            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
+          </div>
+        </div>
+        <div class="animation-property">
+          <div class="form-group row">
+            <div class="col-xs-6">
+              <label>Opacity:</label>
+            </div>
+            <div class="col-xs-6">
+              <input size="1" class="form-control input-sm" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <input type="range" v-model="opacity" v-on:keyup="addKeyframe()" min="0" max="1" step="0.1">
+            </div>
+          </div>
+        </div>
+        <div class="animation-property">
+          <div class="form-group">
+            <label>Keyframes:</label>
+            <div v-for="(keyframe, index) in keyframes">
+                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
+            </div>
+          r</div>
+        </div>
         <div class="animation-property">
           <div class="form-group">
             <label>Properties:</label>
@@ -60,57 +152,6 @@
           <div class="form-group">
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
           </div>
-        </div>
-        <!--
-        <div class="animation-property">
-          <div class="form-group">
-            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
-          </div>
-        </div>
-        -->
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Background Color:</label>
-            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Height:</label>
-            <input type="number" class="form-control" v-model="height" v-on:keyup="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Left:</label>
-            <input type="number" class="form-control" v-model="left" v-on:keyup="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Opacity:</label>
-            <input type="number" class="form-control" v-model="opacity" min="0" max="1" v-on:keyup="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Top:</label>
-            <input type="number" class="form-control" v-model="top" v-on:keyup="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Width:</label>
-            <input type="number" class="form-control" v-model="width" v-on:keyup="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
-            <label>Keyframes:</label>
-            <div v-for="(keyframe, index) in keyframes">
-                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
-            </div>
-          r</div>
         </div>
     </aside>
             <div class="main">
@@ -152,6 +193,7 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
 import contextMenu from 'vue-context-menu';
+import '../Slider.css'
 
 export default {
     components: { contextMenu },
