@@ -2,9 +2,7 @@
   <div>
     <header class="editor-header">
       <div class="logo-section">
-        <div class="logo">
-          GSAP Editor
-        </div>
+        <div class="logo">GSAP Editor</div>
       </div>
       <div class="action-buttons text-center header-padding">
         <span v-if="!animationPlaying" class="glyphicon glyphicon-play action-button" v-on:click="playAnimation()"></span>
