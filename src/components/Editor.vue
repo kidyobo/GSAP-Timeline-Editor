@@ -34,9 +34,16 @@
       </div>
     </header>
     <div class="wrapper">
-      <div class="element-sidebar">
+      <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
         #el
       </div>
+
+      <context-menu id="context-menu" ref="ctxMenu">
+          <li>option 1</li>
+          <li class="disabled">option 2</li>
+          <li>option 3</li>
+      </context-menu>
+
       <aside class="sidebar">
         <div class="animation-property">
           <div class="form-group">
@@ -144,8 +151,10 @@
 import $ from 'jquery';
 import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
+import contextMenu from 'vue-context-menu';
 
 export default {
+    components: { contextMenu },
     data() {
         return {
             activeFrame: 0,
@@ -339,6 +348,10 @@ export default {
 
                 $('.sidebar').css({
                     height: $(window).height() - $('header').height()
+                });
+
+                $('.element-sidebar').css({
+                    height: $(window).height() - $('header').height() - 200
                 });
             },
             setLayout: function() {
