@@ -22,6 +22,7 @@
                     height: "{{keyframe.height}}px",
                     left: {{keyframe.left}},
                     opacity: {{keyframe.opacity}},
+                    rotation: {{keyframe.rotation}},
                     top: {{keyframe.top}},
                     width: "{{keyframe.width + 'px'}}"
                 });
@@ -104,7 +105,7 @@
                     Rotation
                 </div>
                 <div class="col-xs-6">
-                    <input size="1" class="form-control input-sm" type="number">
+                    <input size="1" class="form-control input-sm" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
                 </div>
             </div>
         </div>
@@ -125,7 +126,8 @@
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
-              <input type="range" v-model="opacity" v-on:keyup="addKeyframe()" min="0" max="1" step="0.1">
+              <input type="range" v-model="opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
+
             </div>
           </div>
         </div>
@@ -193,6 +195,7 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
 import contextMenu from 'vue-context-menu';
+import 'bootstrap-slider';
 import '../Slider.css'
 
 export default {
@@ -216,6 +219,7 @@ export default {
                     height: 100,
                     left: 0,
                     opacity: 1,
+                    rotation: 0,
                     time: 0,
                     top: 0,
                     width: 100
@@ -226,6 +230,7 @@ export default {
                     height: 200,
                     left: 200,
                     opacity: 0.5,
+                    rotation: 90,
                     time: 3,
                     top: 200,
                     width: 500
@@ -242,6 +247,7 @@ export default {
                 }
             },
             properties_select: "",
+            rotation: 0,
             secondToPixels: 100,
             showCode: false,
             timelineBars: 100,
@@ -275,6 +281,7 @@ export default {
                             height: this.height,
                             left: this.left,
                             opacity: this.opacity,
+                            rotation: this.rotation,
                             time: keyframe_time,
                             top: this.top,
                             width: this.width
@@ -290,6 +297,7 @@ export default {
                             height: this.height,
                             left: this.left,
                             opacity: this.opacity,
+                            rotation: this.rotation,
                             time: keyframe_time,
                             top: this.top,
                             width: this.width
@@ -356,6 +364,29 @@ export default {
                 ret += "" + secs;
 
                 return ret;
+            },
+            getRotation: function(el) {
+                var st = window.getComputedStyle(el, null);
+
+                var tr = st.getPropertyValue("-webkit-transform") ||
+                         st.getPropertyValue("-moz-transform") ||
+                         st.getPropertyValue("-ms-transform") ||
+                         st.getPropertyValue("-o-transform") ||
+                         st.getPropertyValue("transform") ||
+                         "Either no transform set, or browser doesn't do getComputedStyle";
+
+                var values = tr.split('(')[1],
+                values = values.split(')')[0],
+                values = values.split(',');
+
+                var a = values[0]; // 0.866025
+                var b = values[1]; // 0.5
+                var c = values[2]; // -0.5
+                var d = values[3]; // 0.866025
+
+                var angle = Math.round(Math.asin(b) * (180/Math.PI));
+
+                return angle;
             },
             playAnimation() {
 
@@ -497,6 +528,7 @@ export default {
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
+                            rotation: keyframe.rotation,
                             top: keyframe.top,
                             width: keyframe.width + 'px',
                             onComplete: function() {
@@ -513,6 +545,7 @@ export default {
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
+                            rotation: keyframe.rotation,
                             top: keyframe.top,
                             width: keyframe.width + 'px'
                         });
@@ -528,6 +561,7 @@ export default {
                 this.height = parseInt(document.getElementById("demo").style.height, 10);
                 this.left = parseInt(document.getElementById("demo").style.left, 10);
                 this.opacity = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
+                this.rotation = this.getRotation(document.getElementById("demo"));
                 this.top = parseInt(document.getElementById("demo").style.top, 10);
                 this.width = parseInt(document.getElementById("demo").style.width, 10);
 
@@ -602,6 +636,8 @@ export default {
 
             }
         });
+
+        var mySlider = $("input.slider").slider();
 
         this.attachKeyframeDrag();
 
