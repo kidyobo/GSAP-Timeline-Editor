@@ -110,12 +110,6 @@
             </div>
         </div>
         <div class="animation-property">
-          <div class="form-group">
-            <label>Background Color:</label>
-            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
-          </div>
-        </div>
-        <div class="animation-property">
           <div class="form-group row">
             <div class="col-xs-6">
               <label>Opacity:</label>
@@ -129,6 +123,12 @@
               <input type="range" v-model="opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
 
             </div>
+          </div>
+        </div>
+        <div class="animation-property">
+          <div class="form-group">
+            <label>Background Color:</label>
+            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
         <div class="animation-property">
