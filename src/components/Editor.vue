@@ -50,6 +50,7 @@
       
       <div class="main">
         <div id="demo"></div>
+        <div v-for="element in elements" class="el"></div>
       </div>
       <aside class="sidebar">
         <div class="properties-title">

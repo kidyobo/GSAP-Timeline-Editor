@@ -66,6 +66,13 @@ body {
     width: 100px;
 }
 
+.el {
+    background-color: #000;
+    position: relative;
+    height: 100px;
+    width: 100px;
+}
+
 .element-sidebar {
     background-color: #212121;
     border-bottom: 1px solid #fff;
@@ -135,10 +142,13 @@ input::-webkit-inner-spin-button {
 
 .keyframes {
     background-color: #212121;
+    bottom: 0;
     color: #fff;
     grid-column: 1;
     grid-row: 3;
     height: 200px;
+    position: absolute;
+    width: 200px;
     z-index: 9999;
 }
 
