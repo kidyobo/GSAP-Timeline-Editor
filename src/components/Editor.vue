@@ -37,16 +37,21 @@
     <div class="wrapper">
       <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
         #el
+        <div v-for="element in elements">
+            {{element.name}}
+        </div>
       </div>
 
       <context-menu id="context-menu" ref="ctxMenu">
-          <li>option 1</li>
+          <li><a @click="addElement()">Add Element</a></li>
           <li class="disabled">option 2</li>
           <li>option 3</li>
       </context-menu>
 
       <aside class="sidebar">
-        <div><span class="glyphicon glyphicon-cog"></span> Properties</div>
+        <div class="properties-title">
+            <span class="glyphicon glyphicon-cog"></span> Properties
+        </div>
         
         <!--
         <div class="animation-property">
@@ -133,14 +138,6 @@
         </div>
         <div class="animation-property">
           <div class="form-group">
-            <label>Keyframes:</label>
-            <div v-for="(keyframe, index) in keyframes">
-                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
-            </div>
-          r</div>
-        </div>
-        <div class="animation-property">
-          <div class="form-group">
             <label>Properties:</label>
             <select class="form-control" v-model="properties_select">
               <option>Background Color</option>
@@ -156,27 +153,35 @@
           </div>
         </div>
     </aside>
-            <div class="main">
-              <div id="demo"></div>
+    <div class="main">
+      <div id="demo"></div>
+    </div>
+    <div class="keyframes">
+      <div class="animation-property">
+          <div class="form-group">
+            <label>Keyframes:</label>
+            <div v-for="(keyframe, index) in keyframes">
+                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
             </div>
+          </div>
+        </div>
+    </div>
 
-            <div class="timeline">
-                <div class="timeline-inner">
-                    <div v-for="(keyframe, index) in keyframes" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
-                        <div class="keyframe-diamond">
-                            <div v-for="prop in keyframeProperties(index)">&diams;</div>
-                        </div>
-                    </div>
-                    <div class="color-bar"></div>
-                    <div class="timeline-bars">
-                        <div v-for="i in 1000" class="timeline-frame" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
-                            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
-                        </div>
-                        <div v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
-                            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar">
-
-                            </div>
-                        </div>
+    <div class="timeline">
+      <div class="timeline-inner">
+        <div v-for="(keyframe, index) in keyframes" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
+          <div class="keyframe-diamond">
+            <div v-for="prop in keyframeProperties(index)">&diams;</div>
+          </div>
+        </div>
+        <div class="color-bar"></div>
+        <div class="timeline-bars">
+          <div v-for="i in 1000" class="timeline-frame" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
+            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
+          </div>
+          <div v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
+            <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
+          </div>
                         <!--<div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>-->
                         <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
                             <div v-if="(i - 1) % incrementTime === 0">
@@ -195,7 +200,6 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
 import contextMenu from 'vue-context-menu';
-import 'bootstrap-slider';
 import '../Slider.css'
 
 export default {
@@ -209,6 +213,7 @@ export default {
                 value: "#000000"
             },
             duration: 3,
+            elements: [],
             frame: 0,
             height: 100,
             incrementTime: 1,
@@ -254,6 +259,11 @@ export default {
             totalSeconds: 3,
             top: 0,
             width: 100,
+            addElement: function() {
+                this.elements.push({
+                    name: "#el"
+                });
+            },
             addProperty: function() {
 
                 if (this.properties_select === "Background Color") {
@@ -636,8 +646,6 @@ export default {
 
             }
         });
-
-        var mySlider = $("input.slider").slider();
 
         this.attachKeyframeDrag();
 
