@@ -63,21 +63,21 @@
         <div class="animation-property">
             <div class="form-group row">
                 <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-xs-3">
+                    <div class="flex">
+                        <div class="input-letter">
                             X
                         </div>
-                        <div class="col-xs-9">
+                        <div>
                             <input size="1" class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-xs-3">
+                    <div class="flex">
+                        <div class="input-letter">
                             Y
                         </div>
-                        <div class="col-xs-9">
+                        <div class="">
                             <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
                         </div>
                     </div>

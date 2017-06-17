@@ -111,8 +111,22 @@ header.site-header {
     padding-top: 10px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.input-letter {
+    padding-top: 5px;
+    padding-right: 10px;
+}
+
 .input-number {
     background-color: #080808;
+    border: 0;
+    color: #fff;
     width: 50px
 }
 
