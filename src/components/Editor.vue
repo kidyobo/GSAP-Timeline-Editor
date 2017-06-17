@@ -40,14 +40,18 @@
         <div v-for="element in elements">
             {{element.name}}
         </div>
-      </div>
 
-      <context-menu id="context-menu" ref="ctxMenu">
+        <context-menu id="context-menu" ref="ctxMenu">
           <li><a @click="addElement()">Add Element</a></li>
           <li class="disabled">option 2</li>
           <li>option 3</li>
-      </context-menu>
+        </context-menu>
+      </div>
 
+      
+    <div class="main">
+      <div id="demo"></div>
+    </div>
       <aside class="sidebar">
         <div class="properties-title">
             <span class="glyphicon glyphicon-cog"></span> Properties
@@ -65,18 +69,18 @@
                 </div>
               </div>
             </div>
-                <div class="col-xs-6">
-                    <div class="flex">
-                        <div class="input-label">
-                            Y
-                        </div>
-                        <div>
-                            <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
-                        </div>
-                    </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  Y
                 </div>
+                <div>
+                  <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
             </div>
-            <div class="form-group row">
+          </div>
+          <div class="form-group row">
                 <div class="col-xs-6">
                     <div class="flex">
                         <div class="input-label">
@@ -150,9 +154,6 @@
           </div>
         </div>
     </aside>
-    <div class="main">
-      <div id="demo"></div>
-    </div>
     <div class="keyframes">
         <!--
         <div class="animation-property">

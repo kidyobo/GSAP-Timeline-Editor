@@ -30,7 +30,7 @@ aside.sidebar {
     border-top: 1px solid #fff;
     border-radius: 5px;
     color: #fff;
-    grid-column: 3 / 1 span;
+    grid-column: 3;
     grid-row: 1 / span 3;
     height: 100vh;
     overflow: scroll;
