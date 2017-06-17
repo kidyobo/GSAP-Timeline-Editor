@@ -118,7 +118,7 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-.input-letter {
+.input-label {
     padding-top: 5px;
     padding-right: 10px;
 }
@@ -238,6 +238,6 @@ ul.site-nav li a {
 
 .wrapper {
     display: grid;
-    grid-template-columns: 200px 1fr 275px;
+    grid-template-columns: 200px 1fr 200px;
     grid-template-rows: 100% 1fr 100%;
 }

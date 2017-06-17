@@ -64,7 +64,7 @@
             <div class="form-group row">
                 <div class="col-xs-6">
                     <div class="flex">
-                        <div class="input-letter">
+                        <div class="input-label">
                             X
                         </div>
                         <div>
@@ -74,7 +74,7 @@
                 </div>
                 <div class="col-xs-6">
                     <div class="flex">
-                        <div class="input-letter">
+                        <div class="input-label">
                             Y
                         </div>
                         <div class="">
@@ -85,32 +85,38 @@
             </div>
             <div class="form-group row">
                 <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-xs-3">
+                    <div class="flex">
+                        <div class="input-label">
                             W
                         </div>
-                        <div class="col-xs-9">
-                            <input size="1" class="form-control input-sm" type="number" v-model="width" v-on:keyup="addKeyframe()">
+                        <div>
+                            <input size="1" class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
                 <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-xs-3">
+                    <div class="flex">
+                        <div class="input-label">
                             H
                         </div>
-                        <div class="col-xs-9">
-                            <input size="1" class="form-control input-sm" type="number" v-model="height" v-on:keyup="addKeyframe()">
+                        <div class="">
+                            <input size="1" class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-xs-6">
+                    <div class="flex">
+                        <div class="input-label">
+                            Rotation
+                        </div>
+                        <div class="">
+                            <input size="1" class="form-control input-sm input-number" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                        </div>
+                    </div>
+
                     Rotation
-                </div>
-                <div class="col-xs-6">
-                    <input size="1" class="form-control input-sm" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
                 </div>
             </div>
         </div>
