@@ -68,7 +68,7 @@
                             X
                         </div>
                         <div class="col-xs-9">
-                            <input size="1" class="form-control input-sm" type="number" v-model="left" v-on:keyup="addKeyframe()">
+                            <input size="1" class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             Y
                         </div>
                         <div class="col-xs-9">
-                            <input size="1" class="form-control input-sm" type="number" v-model="top" v-on:keyup="addKeyframe()">
+                            <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
