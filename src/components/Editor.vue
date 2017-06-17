@@ -153,15 +153,15 @@
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
           </div>
         </div>
-    </aside>
-    <div class="keyframes">
+      </aside>
+      <div class="keyframes">
         <div class="animation-property">
           <div class="form-group">
             <input type="number" class="form-control input-sm input-number" v-model="frame" v-on:keyup="updateTimeline(frame)" />
           </div>
         </div>
         
-      <div class="animation-property">
+        <div class="animation-property">
           <div class="form-group">
             <label>Keyframes:</label>
             <div v-for="(keyframe, index) in keyframes()">
@@ -169,11 +169,18 @@
             </div>
           </div>
         </div>
-    </div>
+      </div>
 
     <div class="timeline">
       <div class="timeline-inner">
-        <div v-for="(keyframe, index) in keyframes()" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
+        <context-menu id="context-menu" ref="ctxMenuKeyframes" @ctxMenuKeyframes-open="onCtxOpen" @ctxMenuKeyframes-cancel="resetCtxLocals">
+          <li>{{menuData}}</li>
+            <li><a @click="removeKeyframe(menuData.index)">Delete Keyframe</a></li>
+            <li class="disabled">option 2</li>
+            <li>option 3</li>
+          </context-menu>
+
+        <div v-for="(keyframe, index) in keyframes()" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }"  @contextmenu.prevent="$refs.ctxMenuKeyframes.open($event, index)">
           <div class="keyframe-diamond">
             <div v-for="prop in keyframeProperties(index)">&diams;</div>
           </div>
@@ -186,17 +193,17 @@
           <div v-for="i in 100" v-bind:style="{left: i * secondToPixels + 'px'}">
             <div v-if="(i - 1) % incrementTime === 0" class="timeline-frame-bar"></div>
           </div>
-                        <!--<div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>-->
-                        <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
-                            <div v-if="(i - 1) % incrementTime === 0">
-                                {{ fancyTimeFormat(i - 1) }}
-                            </div>
-                        </span>
-                    </div>
-                </div>
-            </div>
+          <!--<div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>-->
+          <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
+              <div v-if="(i - 1) % incrementTime === 0">
+                  {{ fancyTimeFormat(i - 1) }}
+              </div>
+          </span>
         </div>
+      </div>
     </div>
+  </div>
+  </div>
 </template>
 
 <script>
@@ -248,6 +255,7 @@ export default {
       height: 100,
       incrementTime: 1,
       left: 200,
+      menuData: {},
       opacity: 1.0,
       properties: {
         backgroundColor: {
@@ -420,6 +428,12 @@ export default {
 
               this.tl.play();
 
+            },
+            onCtxOpen(locals) {
+              this.menuData = locals;
+            },
+            resetCtxLocals() {
+              this.menuData = {};
             },
             pauseAnimation() {
 
