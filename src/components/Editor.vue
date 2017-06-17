@@ -180,7 +180,7 @@
             <li>option 3</li>
           </context-menu>
 
-        <div v-for="(keyframe, index) in keyframes()" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }"  @contextmenu.prevent="$refs.ctx.open(index)">
+        <div v-for="(keyframe, index) in keyframes()" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }"  @contextmenu.prevent="$refs.ctx.open($event, index)">
           <div class="keyframe-diamond">
             <div v-for="prop in keyframeProperties(index)">&diams;</div>
           </div>
@@ -255,7 +255,7 @@ export default {
       height: 100,
       incrementTime: 1,
       left: 200,
-      menuData: {},
+      menuData: {index: 0},
       opacity: 1.0,
       properties: {
         backgroundColor: {
@@ -431,7 +431,7 @@ export default {
             },
             onCtxOpen(locals) {
               console.log(locals)
-              //console.log(this.menuData)
+              console.log(this.menuData)
               if (typeof locals === "object") {
                 //this.menuData.index = 0;
               } else {
