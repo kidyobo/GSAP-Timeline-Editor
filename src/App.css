@@ -131,7 +131,10 @@ input::-webkit-inner-spin-button {
 }
 
 .keyframes {
+    background-color: #212121;
     grid-column: 1;
+    grid-row: 3;
+    height: 200px;
     z-index: 9999;
 }
 
@@ -196,7 +199,7 @@ section.intro {
     background-color: #212121;
     bottom: 0;
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 3;
     height: 200px;
     overflow: scroll;
     //overflow-y: hidden;

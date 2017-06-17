@@ -54,7 +54,7 @@
     </div>
       <aside class="sidebar">
         <div class="properties-title">
-            <span class="glyphicon glyphicon-cog"></span> Properties
+          <span class="glyphicon glyphicon-cog"></span> Properties
         </div>
 
         <div class="animation-property">
@@ -431,8 +431,8 @@ export default {
             },
             resizeLayout: function() {
                 $(".timeline").css({
-                    //width: ($(window).width() - $('.sidebar').width())
-                    width: 500
+                    left: $('.element-sidebar').width(),
+                    width: $(window).width() - $('.sidebar').width() - $('.element-sidebar').width()
                 });
 
                 $('.sidebar').css({
