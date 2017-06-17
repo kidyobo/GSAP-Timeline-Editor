@@ -52,32 +52,25 @@
         <div class="properties-title">
             <span class="glyphicon glyphicon-cog"></span> Properties
         </div>
-        
-        <!--
+
         <div class="animation-property">
-          <div class="form-group">
-            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
-          </div>
-        </div>
-        -->
-        <div class="animation-property">
-            <div class="form-group row">
-                <div class="col-xs-6">
-                    <div class="flex">
-                        <div class="input-label">
-                            X
-                        </div>
-                        <div>
-                            <input size="1" class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
-                        </div>
-                    </div>
+          <div class="form-group row">
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  X
                 </div>
+                <div>
+                  <input size="1" class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
                 <div class="col-xs-6">
                     <div class="flex">
                         <div class="input-label">
                             Y
                         </div>
-                        <div class="">
+                        <div>
                             <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
@@ -99,7 +92,7 @@
                         <div class="input-label">
                             H
                         </div>
-                        <div class="">
+                        <div>
                             <input size="1" class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
@@ -111,12 +104,10 @@
                         <div class="input-label">
                             Rotation
                         </div>
-                        <div class="">
-                            <input size="1" class="form-control input-sm input-number" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                        <div class="rotation-input">
+                            <input size="1" class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
-
-                    Rotation
                 </div>
             </div>
         </div>
@@ -163,6 +154,13 @@
       <div id="demo"></div>
     </div>
     <div class="keyframes">
+        <!--
+        <div class="animation-property">
+          <div class="form-group">
+            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+          </div>
+        </div>
+        -->
       <div class="animation-property">
           <div class="form-group">
             <label>Keyframes:</label>
@@ -432,7 +430,8 @@ export default {
             },
             resizeLayout: function() {
                 $(".timeline").css({
-                    width: ($(window).width() - $('.sidebar').width())
+                    //width: ($(window).width() - $('.sidebar').width())
+                    width: 500
                 });
 
                 $('.sidebar').css({
