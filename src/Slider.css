@@ -3,7 +3,7 @@ input[type=range] {
     -webkit-appearance: none;
     
     /*fix for FF unable to apply focus style bug */
-    border: 1px solid white;
+    border: 1px solid #080808;
     
     /*required for proper track sizing in FF*/
     width: 100%;
@@ -12,7 +12,7 @@ input[type=range] {
 input[type=range]::-webkit-slider-runnable-track {
     width: 100%;
     height: 5px;
-    background: #ddd;
+    background: #080808;
     border: none;
     border-radius: 3px;
 }
@@ -20,6 +20,7 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
+    cursor: pointer;
     height: 16px;
     width: 16px;
     border-radius: 50%;
@@ -32,13 +33,13 @@ input[type=range]:focus {
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
+    background: #080808;
 }
 
 input[type=range]::-moz-range-track {
     width: 100%;
     height: 5px;
-    background: #ddd;
+    background: #080808;
     border: none;
     border-radius: 3px;
 }
@@ -48,11 +49,12 @@ input[type=range]::-moz-range-thumb {
     width: 16px;
     border-radius: 50%;
     background-color: #8BC34A;
+    cursor: pointer;
 }
 
 /*hide the outline behind the border*/
 input[type=range]:-moz-focusring{
-    outline: 1px solid white;
+    outline: 1px solid #080808;
     outline-offset: -1px;
 }
 
@@ -77,12 +79,13 @@ input[type=range]::-ms-fill-lower {
 }
 
 input[type=range]::-ms-fill-upper {
-    background: #ddd;
+    background: #080808;
     border-radius: 10px;
 }
 
 input[type=range]::-ms-thumb {
     border: none;
+    cursor: pointer;
     height: 16px;
     width: 16px;
     border-radius: 50%;
@@ -93,5 +96,5 @@ input[type=range]:focus::-ms-fill-lower {
     background: #888;
 }
 input[type=range]:focus::-ms-fill-upper {
-    background: #ccc;
+    background: #080808;
 }

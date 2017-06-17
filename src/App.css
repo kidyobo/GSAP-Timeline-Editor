@@ -75,7 +75,10 @@ body {
     grid-row: 1 / span 2;
     height: 100vh;
     overflow-y: scroll;
-    padding: 15px 0;
+}
+
+.element-sidebar-inner {
+    padding: 15px;
 }
 
 .embed-code {
@@ -132,6 +135,7 @@ input::-webkit-inner-spin-button {
 
 .keyframes {
     background-color: #212121;
+    color: #fff;
     grid-column: 1;
     grid-row: 3;
     height: 200px;
@@ -187,7 +191,6 @@ input::-webkit-inner-spin-button {
 }
 
 .rotation-input {
-    border: 1px solid #fff;
     flex-grow: 1;
 }
 

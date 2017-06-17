@@ -16,7 +16,7 @@
               <div class="embed-code" v-if="showCode">
                 var tl = new TimelineLite();
                     
-                <p v-for="(keyframe, index) in keyframes" v-if="index !== 0">
+                <p v-for="(keyframe, index) in keyframes()" v-if="index !== 0">
                 tl.to($('#el'), {{keyframe.duration}}, {
                     backgroundColor: "{{keyframe.backgroundColor}}",
                     height: "{{keyframe.height}}px",
@@ -36,22 +36,21 @@
     </header>
     <div class="wrapper">
       <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
-        #el
-        <div v-for="element in elements">
+        <div class="element-sidebar-inner">
+          <div v-for="element in elements">
             {{element.name}}
+          </div>
+          <context-menu id="context-menu" ref="ctxMenu">
+            <li><a @click="addElement()">Add Element</a></li>
+            <li class="disabled">option 2</li>
+            <li>option 3</li>
+          </context-menu>
         </div>
-
-        <context-menu id="context-menu" ref="ctxMenu">
-          <li><a @click="addElement()">Add Element</a></li>
-          <li class="disabled">option 2</li>
-          <li>option 3</li>
-        </context-menu>
       </div>
-
       
-    <div class="main">
-      <div id="demo"></div>
-    </div>
+      <div class="main">
+        <div id="demo"></div>
+      </div>
       <aside class="sidebar">
         <div class="properties-title">
           <span class="glyphicon glyphicon-cog"></span> Properties
@@ -81,29 +80,29 @@
             </div>
           </div>
           <div class="form-group row">
-                <div class="col-xs-6">
-                    <div class="flex">
-                        <div class="input-label">
-                            W
-                        </div>
-                        <div>
-                            <input size="1" class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
-                        </div>
-                    </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  W
                 </div>
-                <div class="col-xs-6">
-                    <div class="flex">
-                        <div class="input-label">
-                            H
-                        </div>
-                        <div>
-                            <input size="1" class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
-                        </div>
-                    </div>
+                <div>
+                  <input size="1" class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
                 </div>
+              </div>
             </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  H
+                </div>
+                <div>
+                  <input size="1" class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
+          </div>
             <div class="form-group row">
-                <div class="col-xs-6">
+                <div class="col-xs-12">
                     <div class="flex">
                         <div class="input-label">
                             Rotation
@@ -121,7 +120,7 @@
               <label>Opacity:</label>
             </div>
             <div class="col-xs-6">
-              <input size="1" class="form-control input-sm" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
+              <input size="1" class="form-control input-sm input-number pull-right" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
             </div>
           </div>
           <div class="form-group row">
@@ -155,17 +154,16 @@
         </div>
     </aside>
     <div class="keyframes">
-        <!--
         <div class="animation-property">
           <div class="form-group">
-            <input type="number" class="form-control" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+            <input type="number" class="form-control input-sm input-number" v-model="frame" v-on:keyup="updateTimeline(frame)" />
           </div>
         </div>
-        -->
+        
       <div class="animation-property">
           <div class="form-group">
             <label>Keyframes:</label>
-            <div v-for="(keyframe, index) in keyframes">
+            <div v-for="(keyframe, index) in keyframes()">
                 {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
             </div>
           </div>
@@ -174,7 +172,7 @@
 
     <div class="timeline">
       <div class="timeline-inner">
-        <div v-for="(keyframe, index) in keyframes" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
+        <div v-for="(keyframe, index) in keyframes()" class="keyframe-bar" :style="{ left: (keyframe.time * secondToPixels) + 'px' }">
           <div class="keyframe-diamond">
             <div v-for="prop in keyframeProperties(index)">&diams;</div>
           </div>
@@ -208,158 +206,160 @@ import contextMenu from 'vue-context-menu';
 import '../Slider.css'
 
 export default {
-    components: { contextMenu },
-    data() {
-        return {
-            activeFrame: 0,
-            animationPlaying: false,
-            backgroundColor: {
-                show: false,
-                value: "#000000"
-            },
-            duration: 3,
-            elements: [],
-            frame: 0,
+  components: { contextMenu },
+  data() {
+    return {
+      activeFrame: 0,
+      animationPlaying: false,
+      backgroundColor: {
+        show: false,
+        value: "#000000"
+      },
+      duration: 3,
+      elements: [{
+        name: "#el",
+        keyframes: [
+          {
+            backgroundColor: "#000000",
+            duration: 0,
             height: 100,
-            incrementTime: 1,
-            keyframes: [
-                {
-                    backgroundColor: "#000000",
-                    duration: 0,
-                    height: 100,
-                    left: 0,
-                    opacity: 1,
-                    rotation: 0,
-                    time: 0,
-                    top: 0,
-                    width: 100
-                },
-                {
-                    backgroundColor: "#000000",
-                    duration: 3,
-                    height: 200,
-                    left: 200,
-                    opacity: 0.5,
-                    rotation: 90,
-                    time: 3,
-                    top: 200,
-                    width: 500
-                }
-            ],
-            left: 200,
-            opacity: 1.0,
-            properties: {
-                backgroundColor: {
-                    value: "#333333"
-                },
-                height: {
-                    value: 100
-                }
-            },
-            properties_select: "",
+            left: 0,
+            opacity: 1,
             rotation: 0,
-            secondToPixels: 100,
-            showCode: false,
-            timelineBars: 100,
-            totalSeconds: 3,
+            time: 0,
             top: 0,
-            width: 100,
-            addElement: function() {
-                this.elements.push({
-                    name: "#el"
-                });
-            },
-            addProperty: function() {
+            width: 100
+          },
+          {
+            backgroundColor: "#000000",
+            duration: 3,
+            height: 200,
+            left: 200,
+            opacity: 0.5,
+            rotation: 90,
+            time: 3,
+            top: 200,
+            width: 500
+          }
+        ]
+      }],
+      frame: 0,
+      height: 100,
+      incrementTime: 1,
+      left: 200,
+      opacity: 1.0,
+      properties: {
+        backgroundColor: {
+          value: "#333333"
+        },
+        height: {
+          value: 100
+        }
+      },
+      properties_select: "",
+      rotation: 0,
+      secondToPixels: 100,
+      showCode: false,
+      timelineBars: 100,
+      totalSeconds: 3,
+      top: 0,
+      width: 100,
+      addElement: function() {
+        this.elements.push({
+          name: "#el"
+        });
+      },
+      addProperty: function() {
 
-                if (this.properties_select === "Background Color") {
+        if (this.properties_select === "Background Color") {
 
-                    this.backgroundColor.show = true;
+          this.backgroundColor.show = true;
 
-                }
+        }
 
-            },
-            addKeyframe: function() {
+      },
+      addKeyframe: function() {
 
-                //if (frame === undefined) {
+          //if (frame === undefined) {
 
-                var keyframe_time = this.frame / this.secondToPixels;
+          var keyframe_time = this.frame / this.secondToPixels;
 
-                // find first keyframe that is bigger than added keyframe
-                // and splice the new keyframe in 
-                for (var i = 0; i < this.keyframes.length; i++) {
+          // find first keyframe that is bigger than added keyframe
+          // and splice the new keyframe in 
+          for (var i = 0; i < this.keyframes().length; i++) {
 
-                    if (this.keyframes[i].time > keyframe_time) {
+              if (this.keyframes()[i].time > keyframe_time) {
 
-                        this.keyframes.splice(i, 0, {
-                            backgroundColor: this.backgroundColor.value,
-                            duration: 0,
-                            height: this.height,
-                            left: this.left,
-                            opacity: this.opacity,
-                            rotation: this.rotation,
-                            time: keyframe_time,
-                            top: this.top,
-                            width: this.width
-                        });
+                  this.keyframes().splice(i, 0, {
+                      backgroundColor: this.backgroundColor.value,
+                      duration: 0,
+                      height: this.height,
+                      left: this.left,
+                      opacity: this.opacity,
+                      rotation: this.rotation,
+                      time: keyframe_time,
+                      top: this.top,
+                      width: this.width
+                  });
 
-                        break;
+                  break;
 
-                    } else if (this.keyframes[i].time === keyframe_time) {
+              } else if (this.keyframes()[i].time === keyframe_time) {
 
-                        this.keyframes.splice(i, 1, {
-                            backgroundColor: this.backgroundColor.value,
-                            duration: 0,
-                            height: this.height,
-                            left: this.left,
-                            opacity: this.opacity,
-                            rotation: this.rotation,
-                            time: keyframe_time,
-                            top: this.top,
-                            width: this.width
-                        });
+                  this.keyframes().splice(i, 1, {
+                      backgroundColor: this.backgroundColor.value,
+                      duration: 0,
+                      height: this.height,
+                      left: this.left,
+                      opacity: this.opacity,
+                      rotation: this.rotation,
+                      time: keyframe_time,
+                      top: this.top,
+                      width: this.width
+                  });
 
-                        break;
+                  break;
 
-                    }
+              }
 
-                }
+          }
 
-                this.tl.restart();
+          this.tl.restart();
 
-                this.attachKeyframeDrag();
-                this.updateTimeline();
+          this.attachKeyframeDrag();
+          this.updateTimeline();
 
-            },
-            attachKeyframeDrag: function() {
+      },
+      attachKeyframeDrag: function() {
 
-                var that = this;
+          var that = this;
 
-                setTimeout(function() {
+          setTimeout(function() {
 
-                    $('.keyframe-bar').draggable({
-                        axis: 'x',
-                        containment: ".timeline",
-                        grid: [ 1 ],
-                        stop: function( event, ui ) {
+              $('.keyframe-bar').draggable({
+                  axis: 'x',
+                  containment: ".timeline",
+                  grid: [ 1 ],
+                  stop: function( event, ui ) {
 
-                            var index = $(this).index();
-                            that.keyframes[index].time = ui.position.left / that.secondToPixels;
-                            that.totalSeconds = that.keyframes[that.keyframes.length - 1].time;
+                      var index = $(this).index();
+                      that.keyframes()[index].time = ui.position.left / that.secondToPixels;
+                      that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
 
-                            /*that.sortKeyframes();
-                            that.tl.progress(that.keyframes[0].time / that.totalSeconds);
-                            that.updateDuration();
-                            that.updateKeyframes();
-                            that.updateTotalSeconds();*/
+                      /*that.sortKeyframes();
+                      that.tl.progress(that.keyframes()[0].time / that.totalSeconds);
+                      that.updateDuration();
+                      that.updateKeyframes();
+                      that.updateTotalSeconds();*/
 
-                            that.updateTimeline();
+                      that.updateTimeline();
 
-                        }
-                    });
+                  }
+              });
 
-                }, 1);
+          }, 1);
 
-            },
+      },
             fancyTimeFormat: function(time) {   
                 // Hours, minutes and seconds
                 var hrs = ~~(time / 3600);
@@ -371,7 +371,7 @@ export default {
 
                 if (hrs > 0) {
 
-                    ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+                  ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
 
                 }
 
@@ -403,18 +403,21 @@ export default {
 
                 return angle;
             },
+            keyframes() {
+              return this.elements[0].keyframes;
+            },
             playAnimation() {
 
-                if (this.animationComplete === true) {
+              if (this.animationComplete === true) {
 
-                    this.tl.restart();
-                    this.animationComplete = false;
+                this.tl.restart();
+                this.animationComplete = false;
 
-                }
+              }
 
-                this.animationPlaying = true;
+              this.animationPlaying = true;
 
-                this.tl.play();
+              this.tl.play();
 
             },
             pauseAnimation() {
@@ -425,23 +428,23 @@ export default {
             },
             removeKeyframe: function(index) {
 
-                this.keyframes.splice(index, 1);
-                this.updateTimeline();
+              this.keyframes().splice(index, 1);
+              this.updateTimeline();
 
             },
             resizeLayout: function() {
-                $(".timeline").css({
-                    left: $('.element-sidebar').width(),
-                    width: $(window).width() - $('.sidebar').width() - $('.element-sidebar').width()
-                });
+              $(".timeline").css({
+                left: $('.element-sidebar').width(),
+                width: $(window).width() - $('.sidebar').width() - $('.element-sidebar').width()
+              });
 
-                $('.sidebar').css({
-                    height: $(window).height() - $('header').height()
-                });
+              $('.sidebar').css({
+                height: $(window).height() - $('header').height()
+              });
 
-                $('.element-sidebar').css({
-                    height: $(window).height() - $('header').height() - 200
-                });
+              $('.element-sidebar').css({
+                height: $(window).height() - $('header').height() - 200
+              });
             },
             setLayout: function() {
 
@@ -494,7 +497,7 @@ export default {
             },
             sortKeyframes: function() {
 
-                this.keyframes.sort(function(a, b) {
+                this.keyframes().sort(function(a, b) {
 
                     return parseFloat(a.time) - parseFloat(b.time);
 
@@ -514,15 +517,15 @@ export default {
 
                 var that = this;
 
-                this.keyframes.forEach(function(keyframe, index) {
+                this.keyframes().forEach(function(keyframe, index) {
 
                     if (index === 0) {
 
-                        that.keyframes[index].duration = that.keyframes[index].time;
+                        that.keyframes()[index].duration = that.keyframes()[index].time;
 
                     } else {
 
-                        that.keyframes[index].duration = that.keyframes[index].time - that.keyframes[index - 1].time;
+                        that.keyframes()[index].duration = that.keyframes()[index].time - that.keyframes()[index - 1].time;
 
                     }
 
@@ -533,9 +536,9 @@ export default {
 
                 var that = this;
 
-                var total_keyframes = this.keyframes.length;
+                var total_keyframes = this.keyframes().length;
 
-                this.keyframes.forEach(function (keyframe, index) {
+                this.keyframes().forEach(function (keyframe, index) {
 
                     if (index === total_keyframes - 1) {
 
@@ -583,7 +586,7 @@ export default {
 
                 //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
                 if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
-                    this.tl.progress(this.keyframes[0].time / this.totalSeconds)
+                    this.tl.progress(this.keyframes()[0].time / this.totalSeconds)
                 }
                 $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
                 //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
@@ -604,7 +607,7 @@ export default {
 
                 } else {
 
-                    that.tl.progress(that.keyframes[0].time / that.totalSeconds);
+                    that.tl.progress(that.keyframes()[0].time / that.totalSeconds);
 
                 }
 
@@ -624,7 +627,7 @@ export default {
 
             },
             keyframeProperties: function (index) {
-                return $.map(this.keyframes[index], function(v, i) {
+                return $.map(this.keyframes()[index], function(v, i) {
 
                     if (i !== 'duration') {
                         return i;
@@ -634,7 +637,7 @@ export default {
             },
             updateTotalSeconds() {
 
-                this.totalSeconds = this.keyframes[this.keyframes.length - 1].time;
+                this.totalSeconds = this.keyframes()[this.keyframes().length - 1].time;
 
             }
         }
