@@ -226,6 +226,7 @@ export default {
         keyframes: [
           {
             backgroundColor: "#000000",
+            border: "1px solid #blue",
             duration: 0,
             height: 100,
             left: 0,
@@ -237,6 +238,7 @@ export default {
           },
           {
             backgroundColor: "#000000",
+            border: "25px solid #blue",
             duration: 3,
             height: 200,
             left: 200,
@@ -556,6 +558,7 @@ export default {
 
                         that.tl.to($('#demo'), keyframe.duration, {
                             backgroundColor: keyframe.backgroundColor,
+                            border: "25px solid #blue",
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
@@ -573,6 +576,7 @@ export default {
 
                         that.tl.to($('#demo'), keyframe.duration, {
                             backgroundColor: keyframe.backgroundColor,
+                            border: "1px solid #blue",
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
