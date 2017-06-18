@@ -14,7 +14,7 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
-    files: ['./index.js'],
+    files: ['https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js', './index.js'],
     preprocessors: {
       './index.js': ['webpack', 'sourcemap']
     },

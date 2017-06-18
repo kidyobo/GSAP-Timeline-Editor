@@ -37,7 +37,7 @@
     <div class="wrapper">
       <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
         <div class="element-sidebar-inner">
-          <div v-for="(element, index) in elements" class="element-item" :class="{'element-focused': elements[index].isFocused}" @click="focusElement(index)">
+          <div v-for="(element, index) in elements" class="element-item" :class="{'element-focused': index === elementActiveIndex}" @click="focusElement(index)">
             {{element.name}}
           </div>
           <context-menu id="context-menu" ref="ctxMenu">
@@ -238,7 +238,6 @@ export default {
       duration: 3,
       elements: [{
         class: "el",
-        isFocused: false,
         name: ".el",
         properties: {
           backgroundColor: {
@@ -288,11 +287,14 @@ export default {
       opacity: 1.0,
       properties: {
         backgroundColor: {
-          value: "#333333"
+          show: false,
+          value: "#000000"
         },
-        height: {
-          value: 100
-        }
+        border: {
+          show: true,
+          color: "#000000",
+          width: 1
+        },
       },
       properties_select: "",
       rotation: 0,
@@ -305,13 +307,15 @@ export default {
       addCircle: function() {
         this.elements.push({
           class: "el-circle",
-          name: ".el-circle"
+          name: ".el-circle",
+          properties: $.extend({}, this.properties)
         });
       },
       addElement: function() {
         this.elements.push({
           class: "el",
-          name: ".el"
+          name: ".el",
+          properties: $.extend({}, this.properties)
         });
       },
       addProperty: function() {
@@ -427,7 +431,7 @@ export default {
       },
       focusElement: function(index) {
 
-        this.elements[index].isFocused = true;
+        //this.elements[index].isFocused = true;
         this.elementActiveIndex = index;
 
       },
