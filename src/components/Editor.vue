@@ -137,7 +137,13 @@
         <div class="animation-property">
           <div class="form-group">
             <label>Background Color:</label>
-            <input type="color" class="form-control" v-model="backgroundColor.value" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="elements[0].properties.backgroundColor.value" v-on:change="addKeyframe()" />
+          </div>
+        </div>
+        <div class="animation-property">
+          <div class="form-group">
+            <label>Border Color:</label>
+            <input type="color" class="form-control" v-model="elements[0].properties.borderColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
         <div class="animation-property">
@@ -215,18 +221,25 @@ export default {
     return {
       activeFrame: 0,
       animationPlaying: false,
-      backgroundColor: {
-        show: false,
-        value: "#000000"
-      },
       duration: 3,
       elements: [{
         class: "el",
         name: ".el",
+        properties: {
+          backgroundColor: {
+            show: false,
+            value: "#000000"
+          },
+          borderColor: {
+            show: false,
+            value: "#000000"
+          },
+        },
         keyframes: [
           {
             backgroundColor: "#000000",
-            border: "1px solid #blue",
+            borderColor: "blue",
+            borderWidth: "1px",
             duration: 0,
             height: 100,
             left: 0,
@@ -238,7 +251,8 @@ export default {
           },
           {
             backgroundColor: "#000000",
-            border: "25px solid #blue",
+            borderColor: "green",
+            borderWidth: "25px",
             duration: 3,
             height: 200,
             left: 200,
@@ -558,7 +572,9 @@ export default {
 
                         that.tl.to($('#demo'), keyframe.duration, {
                             backgroundColor: keyframe.backgroundColor,
-                            border: "25px solid #blue",
+                            border: keyframe.borderWidth + " solid " + keyframe.borderColor,
+                            //borderColor: keyframe.borderColor,
+                            //borderWidth: keyframe.borderWidth,
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
@@ -576,7 +592,9 @@ export default {
 
                         that.tl.to($('#demo'), keyframe.duration, {
                             backgroundColor: keyframe.backgroundColor,
-                            border: "1px solid #blue",
+                            border: keyframe.borderWidth + " solid " + keyframe.borderColor,
+                            //borderColor: keyframe.borderColor,
+                            //borderWidth: keyframe.borderWidth,
                             height: keyframe.height,
                             left: keyframe.left,
                             opacity: keyframe.opacity,
