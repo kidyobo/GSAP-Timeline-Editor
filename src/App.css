@@ -73,6 +73,14 @@ body {
     width: 100px;
 }
 
+.el-circle {
+    background-color: #000;
+    border-radius: 50%;
+    height: 200px;
+    position: absolute;
+    width: 200px;
+}
+
 .element-sidebar {
     background-color: #212121;
     border-bottom: 1px solid #fff;
@@ -195,6 +203,11 @@ input::-webkit-inner-spin-button {
 .properties-title {
     background-color: #181818;
     padding: 5px;
+}
+
+.range-opacity {
+    background-color: #080808;
+    border-radius: 5px;
 }
 
 .relative {

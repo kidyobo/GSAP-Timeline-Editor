@@ -42,7 +42,7 @@
           </div>
           <context-menu id="context-menu" ref="ctxMenu">
             <li><a @click="addElement()">Add Element</a></li>
-            <li class="disabled">option 2</li>
+            <li><a @click="addCircle()">Add Circle Element</a></li>
             <li>option 3</li>
           </context-menu>
         </div>
@@ -50,7 +50,10 @@
       
       <div class="main">
         <div id="demo"></div>
-        <div v-for="element in elements" class="el"></div>
+        <div v-for="element in elements">
+          <div v-if="element.class === 'el-circle'" class="el-circle"></div>
+          <div v-else class="el"></div>
+        </div>
       </div>
       <aside class="sidebar">
         <div class="properties-title">
@@ -65,7 +68,7 @@
                   X
                 </div>
                 <div>
-                  <input size="1" class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -75,7 +78,7 @@
                   Y
                 </div>
                 <div>
-                  <input size="1" class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -87,7 +90,7 @@
                   W
                 </div>
                 <div>
-                  <input size="1" class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -97,7 +100,7 @@
                   H
                 </div>
                 <div>
-                  <input size="1" class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -109,7 +112,7 @@
                             Rotation
                         </div>
                         <div class="rotation-input">
-                            <input size="1" class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                            <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
                         </div>
                     </div>
                 </div>
@@ -121,12 +124,12 @@
               <label>Opacity:</label>
             </div>
             <div class="col-xs-6">
-              <input size="1" class="form-control input-sm input-number pull-right" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
+              <input class="form-control input-sm input-number pull-right" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
-              <input type="range" v-model="opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
+              <input type="range" class="range-opacity" v-model="opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
 
             </div>
           </div>
@@ -225,7 +228,8 @@ export default {
       },
       duration: 3,
       elements: [{
-        name: "#el",
+        class: "el",
+        name: ".el",
         keyframes: [
           {
             backgroundColor: "#000000",
@@ -273,9 +277,16 @@ export default {
       totalSeconds: 3,
       top: 0,
       width: 100,
+      addCircle: function() {
+        this.elements.push({
+          class: "el-circle",
+          name: ".el-circle"
+        });
+      },
       addElement: function() {
         this.elements.push({
-          name: "#el"
+          class: "el",
+          name: ".el"
         });
       },
       addProperty: function() {
@@ -289,54 +300,54 @@ export default {
       },
       addKeyframe: function() {
 
-          //if (frame === undefined) {
+        //if (frame === undefined) {
 
-          var keyframe_time = this.frame / this.secondToPixels;
+        var keyframe_time = this.frame / this.secondToPixels;
 
-          // find first keyframe that is bigger than added keyframe
-          // and splice the new keyframe in 
-          for (var i = 0; i < this.keyframes().length; i++) {
+        // find first keyframe that is bigger than added keyframe
+        // and splice the new keyframe in 
+        for (var i = 0; i < this.keyframes().length; i++) {
 
-              if (this.keyframes()[i].time > keyframe_time) {
+            if (this.keyframes()[i].time > keyframe_time) {
 
-                  this.keyframes().splice(i, 0, {
-                      backgroundColor: this.backgroundColor.value,
-                      duration: 0,
-                      height: this.height,
-                      left: this.left,
-                      opacity: this.opacity,
-                      rotation: this.rotation,
-                      time: keyframe_time,
-                      top: this.top,
-                      width: this.width
-                  });
+                this.keyframes().splice(i, 0, {
+                    backgroundColor: this.backgroundColor.value,
+                    duration: 0,
+                    height: this.height,
+                    left: this.left,
+                    opacity: this.opacity,
+                    rotation: this.rotation,
+                    time: keyframe_time,
+                    top: this.top,
+                    width: this.width
+                });
 
-                  break;
+                break;
 
-              } else if (this.keyframes()[i].time === keyframe_time) {
+            } else if (this.keyframes()[i].time === keyframe_time) {
 
-                  this.keyframes().splice(i, 1, {
-                      backgroundColor: this.backgroundColor.value,
-                      duration: 0,
-                      height: this.height,
-                      left: this.left,
-                      opacity: this.opacity,
-                      rotation: this.rotation,
-                      time: keyframe_time,
-                      top: this.top,
-                      width: this.width
-                  });
+                this.keyframes().splice(i, 1, {
+                    backgroundColor: this.backgroundColor.value,
+                    duration: 0,
+                    height: this.height,
+                    left: this.left,
+                    opacity: this.opacity,
+                    rotation: this.rotation,
+                    time: keyframe_time,
+                    top: this.top,
+                    width: this.width
+                });
 
-                  break;
+                break;
 
-              }
+            }
 
-          }
+        }
 
-          this.tl.restart();
+        this.tl.restart();
 
-          this.attachKeyframeDrag();
-          this.updateTimeline();
+        this.attachKeyframeDrag();
+        this.updateTimeline();
 
       },
       attachKeyframeDrag: function() {
