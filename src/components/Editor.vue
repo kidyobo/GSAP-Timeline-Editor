@@ -69,7 +69,7 @@
                   X
                 </div>
                 <div>
-                  <input class="form-control input-sm input-number" type="number" v-model="left" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="activeElementProps().left.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
                   Y
                 </div>
                 <div>
-                  <input class="form-control input-sm input-number" type="number" v-model="top" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="activeElementProps().top.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@
                   W
                 </div>
                 <div>
-                  <input class="form-control input-sm input-number" type="number" v-model="width" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="activeElementProps().width.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -101,7 +101,7 @@
                   H
                 </div>
                 <div>
-                  <input class="form-control input-sm input-number" type="number" v-model="height" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number" type="number" v-model="activeElementProps().height.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -125,12 +125,12 @@
               <label>Opacity:</label>
             </div>
             <div class="col-xs-6">
-              <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="elements[elementActiveIndex].properties.opacity" v-on:keyup="addKeyframe()">
+              <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="activeElementProps().opacity.value" v-on:keyup="addKeyframe()">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
-              <input type="range" class="range-opacity" v-model="elements[elementActiveIndex].properties.opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
+              <input type="range" class="range-opacity" v-model="activeElementProps().opacity.value" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
 
             </div>
           </div>
@@ -138,14 +138,14 @@
         <div class="animation-property">
           <div class="form-group">
             <label>Background Color:</label>
-            <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.backgroundColor.value" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="activeElementProps().backgroundColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
-        <div class="animation-property" v-if="elements[elementActiveIndex].properties.border.show">
-          <label><input type="checkbox" v-model="elements[elementActiveIndex].properties.border.enabled"> Border</label>
+        <div class="animation-property" v-if="activeElementProps().border.show">
+          <label><input type="checkbox" v-model="activeElementProps().border.enabled"> Border</label>
           <div class="form-group">
             <label>Color:</label>
-            <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.border.color" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="activeElementProps().border.color" v-on:change="addKeyframe()" />
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
@@ -154,7 +154,7 @@
                   Width
                 </div>
                 <div class="rotation-input">
-                  <input class="form-control input-sm input-number pull-right" type="number" v-model="elements[0].properties.border.width" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.width" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -181,7 +181,7 @@
       <div class="keyframes">
         <div class="animation-property">
           <div class="form-group">
-            <input type="number" class="form-control input-sm input-number" v-model="frame" v-on:keyup="updateTimeline(frame)" />
+            <input type="number" class="form-control input-sm input-number" v-model="activeElement().frame" v-on:keyup="updateTimeline(frame)" />
           </div>
         </div>
         
@@ -238,6 +238,7 @@ export default {
       animationPlaying: false,
       duration: 3,
       elements: [{
+        frame: 0,
         class: "el",
         name: ".el",
         properties: {
@@ -251,6 +252,22 @@ export default {
             color: "#000000",
             width: 1
           },
+          height: {
+            show: false,
+            value: 100
+          },
+          left: {
+            value: 200
+          },
+          opacity: {
+            value: 1.0
+          },
+          top: {
+            value: 0
+          },
+          width: {
+            value: 100
+          }
         },
         keyframes: [
           {
@@ -282,11 +299,11 @@ export default {
         ]
       }],
       elementActiveIndex: 0,
-      frame: 0,
-      height: 100,
+      //frame: 0,
+      //height: 100,
       incrementTime: 1,
-      left: 200,
-      opacity: 1.0,
+      //left: 200,
+      //opacity: 1.0,
       properties: {
         backgroundColor: {
           show: false,
@@ -304,8 +321,14 @@ export default {
       showCode: false,
       timelineBars: 100,
       totalSeconds: 3,
-      top: 0,
-      width: 100,
+      //top: 0,
+      //width: 100,
+      activeElement() {
+        return this.elements[this.elementActiveIndex];
+      },
+      activeElementProps() {
+        return this.elements[this.elementActiveIndex].properties;
+      },
       addCircle: function() {
         this.elements.push({
           class: "el-circle",
@@ -339,39 +362,39 @@ export default {
         // and splice the new keyframe in 
         for (var i = 0; i < this.keyframes().length; i++) {
 
-            if (this.keyframes()[i].time > keyframe_time) {
+          if (this.keyframes()[i].time > keyframe_time) {
 
-                this.keyframes().splice(i, 0, {
-                    backgroundColor: this.backgroundColor.value,
-                    duration: 0,
-                    height: this.height,
-                    left: this.left,
-                    opacity: this.opacity,
-                    rotation: this.rotation,
-                    time: keyframe_time,
-                    top: this.top,
-                    width: this.width
-                });
+            this.keyframes().splice(i, 0, {
+                backgroundColor: this.activeElementProps().backgroundColor.value,
+                duration: 0,
+                height: this.activeElementProps().height,
+                left: this.activeElementProps().left,
+                opacity: this.activeElementProps().opacity,
+                rotation: this.activeElementProps().rotation,
+                time: keyframe_time,
+                top: this.activeElementProps().top,
+                width: this.activeElementProps().width
+            });
 
-                break;
+            break;
 
-            } else if (this.keyframes()[i].time === keyframe_time) {
+          } else if (this.keyframes()[i].time === keyframe_time) {
 
-                this.keyframes().splice(i, 1, {
-                    backgroundColor: this.backgroundColor.value,
-                    duration: 0,
-                    height: this.height,
-                    left: this.left,
-                    opacity: this.opacity,
-                    rotation: this.rotation,
-                    time: keyframe_time,
-                    top: this.top,
-                    width: this.width
-                });
+            this.keyframes().splice(i, 1, {
+                backgroundColor: this.activeElementProps().backgroundColor.value,
+                duration: 0,
+                height: this.activeElementProps().height,
+                left: this.activeElementProps().left,
+                opacity: this.activeElementProps().opacity,
+                rotation: this.activeElementProps().rotation,
+                time: keyframe_time,
+                top: this.activeElementProps().top,
+                width: this.activeElementProps().width
+            });
 
-                break;
+            break;
 
-            }
+          }
 
         }
 
@@ -639,13 +662,13 @@ export default {
             },
             updateSlider() {
 
-                this.frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
-                this.height = parseInt(document.getElementById("demo").style.height, 10);
-                this.left = parseInt(document.getElementById("demo").style.left, 10);
-                this.opacity = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
-                this.rotation = this.getRotation(document.getElementById("demo"));
-                this.top = parseInt(document.getElementById("demo").style.top, 10);
-                this.width = parseInt(document.getElementById("demo").style.width, 10);
+                this.activeElement().frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
+                this.activeElementProps().height.value = parseInt(document.getElementById("demo").style.height, 10);
+                this.activeElementProps().left.value = parseInt(document.getElementById("demo").style.left, 10);
+                this.activeElementProps().opacity.value = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
+                this.activeElementProps().rotation.value = this.getRotation(document.getElementById("demo"));
+                this.activeElementProps().top.value = parseInt(document.getElementById("demo").style.top, 10);
+                this.activeElementProps().width.value = parseInt(document.getElementById("demo").style.width, 10);
 
                 //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
                 if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
