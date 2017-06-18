@@ -125,7 +125,7 @@
               <label>Opacity:</label>
             </div>
             <div class="col-xs-6">
-              <input class="form-control input-sm input-number pull-right" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
+              <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
             </div>
           </div>
           <div class="form-group row">
@@ -279,7 +279,7 @@ export default {
           }
         ]
       }],
-      elementActiveIndex: 1,
+      elementActiveIndex: 0,
       frame: 0,
       height: 100,
       incrementTime: 1,
