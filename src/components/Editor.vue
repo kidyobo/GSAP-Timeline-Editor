@@ -37,7 +37,7 @@
     <div class="wrapper">
       <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
         <div class="element-sidebar-inner">
-          <div v-for="element in elements">
+          <div v-for="(element, index) in elements" :class="{'element-focused': elements[index].isFocused}" @click="focusElement(index)">
             {{element.name}}
           </div>
           <context-menu id="context-menu" ref="ctxMenu">
@@ -107,16 +107,16 @@
             </div>
           </div>
           <div class="form-group row">
-              <div class="col-xs-12">
-                  <div class="flex">
-                      <div class="input-label">
-                          Rotation
-                      </div>
-                      <div class="rotation-input">
-                          <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
-                      </div>
-                  </div>
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                    Rotation
+                </div>
+                <div class="rotation-input">
+                    <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                </div>
               </div>
+            </div>
           </div>
         </div>
         <div class="animation-property">
@@ -141,7 +141,7 @@
             <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.backgroundColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
-        <div class="animation-property">
+        <div class="animation-property" v-if="elements[elementActiveIndex].properties.border.show">
           <div class="form-group">
             <label>Border Color:</label>
             <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.border.color" v-on:change="addKeyframe()" />
@@ -238,6 +238,7 @@ export default {
       duration: 3,
       elements: [{
         class: "el",
+        isFocused: false,
         name: ".el",
         properties: {
           backgroundColor: {
@@ -245,7 +246,7 @@ export default {
             value: "#000000"
           },
           border: {
-            show: false,
+            show: true,
             color: "#000000",
             width: 1
           },
@@ -279,7 +280,7 @@ export default {
           }
         ]
       }],
-      elementActiveIndex: 0,
+      elementActiveIndex: 1,
       frame: 0,
       height: 100,
       incrementTime: 1,
@@ -316,7 +317,7 @@ export default {
       addProperty: function() {
 
         if (this.properties_select === "Background Color") {
-
+          this.elements[this.elementActiveIndex].properties.
           this.backgroundColor.show = true;
 
         }
@@ -404,78 +405,84 @@ export default {
           }, 1);
 
       },
-            fancyTimeFormat: function(time) {   
-                // Hours, minutes and seconds
-                var hrs = ~~(time / 3600);
-                var mins = ~~((time % 3600) / 60);
-                var secs = time % 60;
+      fancyTimeFormat: function(time) {   
+        // Hours, minutes and seconds
+        var hrs = ~~(time / 3600);
+        var mins = ~~((time % 3600) / 60);
+        var secs = time % 60;
 
-                // Output like "1:01" or "4:03:59" or "123:03:59"
-                var ret = "";
+        // Output like "1:01" or "4:03:59" or "123:03:59"
+        var ret = "";
 
-                if (hrs > 0) {
+        if (hrs > 0) {
 
-                  ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+          ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
 
-                }
+        }
 
-                ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-                ret += "" + secs;
+        ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+        ret += "" + secs;
 
-                return ret;
-            },
-            getRotation: function(el) {
-                var st = window.getComputedStyle(el, null);
+        return ret;
+      },
+      focusElement: function(index) {
 
-                var tr = st.getPropertyValue("-webkit-transform") ||
-                         st.getPropertyValue("-moz-transform") ||
-                         st.getPropertyValue("-ms-transform") ||
-                         st.getPropertyValue("-o-transform") ||
-                         st.getPropertyValue("transform") ||
-                         "Either no transform set, or browser doesn't do getComputedStyle";
+        this.elements[index].isFocused = true;
+        this.elementActiveIndex = index;
 
-                var values = tr.split('(')[1],
-                values = values.split(')')[0],
-                values = values.split(',');
+      },
+      getRotation: function(el) {
+        var st = window.getComputedStyle(el, null);
 
-                var a = values[0]; // 0.866025
-                var b = values[1]; // 0.5
-                var c = values[2]; // -0.5
-                var d = values[3]; // 0.866025
+        var tr = st.getPropertyValue("-webkit-transform") ||
+                 st.getPropertyValue("-moz-transform") ||
+                 st.getPropertyValue("-ms-transform") ||
+                 st.getPropertyValue("-o-transform") ||
+                 st.getPropertyValue("transform") ||
+                 "Either no transform set, or browser doesn't do getComputedStyle";
 
-                var angle = Math.round(Math.asin(b) * (180/Math.PI));
+        var values = tr.split('(')[1],
+        values = values.split(')')[0],
+        values = values.split(',');
 
-                return angle;
-            },
-            keyframes() {
-              return this.elements[0].keyframes;
-            },
-            playAnimation() {
+        var a = values[0]; // 0.866025
+        var b = values[1]; // 0.5
+        var c = values[2]; // -0.5
+        var d = values[3]; // 0.866025
 
-              if (this.animationComplete === true) {
+        var angle = Math.round(Math.asin(b) * (180/Math.PI));
 
-                this.tl.restart();
-                this.animationComplete = false;
+        return angle;
+      },
+      keyframes() {
+        return this.elements[0].keyframes;
+      },
+      playAnimation() {
 
-              }
+        if (this.animationComplete === true) {
 
-              this.animationPlaying = true;
+          this.tl.restart();
+          this.animationComplete = false;
 
-              this.tl.play();
+        }
 
-            },
-            pauseAnimation() {
+        this.animationPlaying = true;
 
-                this.animationPlaying = false;
-                this.tl.pause();
+        this.tl.play();
 
-            },
-            removeKeyframe: function(index) {
+      },
+      pauseAnimation() {
 
-              this.keyframes().splice(index, 1);
-              this.updateTimeline();
+        this.animationPlaying = false;
+        this.tl.pause();
 
-            },
+      },
+      removeKeyframe: function(index) {
+
+        this.keyframes().splice(index, 1);
+        this.updateTimeline();
+
+      },
             resizeLayout: function() {
               $(".timeline").css({
                 left: $('.element-sidebar').width(),

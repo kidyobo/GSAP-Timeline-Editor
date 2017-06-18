@@ -81,6 +81,10 @@ body {
     width: 200px;
 }
 
+.element-focused {
+    background-color: blue;
+}
+
 .element-sidebar {
     background-color: #212121;
     border-bottom: 1px solid #fff;
