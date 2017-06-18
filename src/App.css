@@ -68,8 +68,8 @@ body {
 
 .el {
     background-color: #000;
-    position: relative;
     height: 100px;
+    position: absolute;
     width: 100px;
 }
 
