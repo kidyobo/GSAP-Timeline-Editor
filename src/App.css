@@ -61,7 +61,7 @@ body {
 
 #demo {
     background-color: #000;
-    position: relative;
+    position: absolute;
     height: 100px;
     width: 100px;
 }
@@ -198,6 +198,7 @@ input::-webkit-inner-spin-button {
     float: left;
     grid-column: 2;
     grid-row: 1;
+    position: relative;
 }
 
 .properties-title {
