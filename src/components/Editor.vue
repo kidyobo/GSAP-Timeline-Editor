@@ -142,6 +142,7 @@
           </div>
         </div>
         <div class="animation-property" v-if="elements[elementActiveIndex].properties.border.show">
+          <label>Border</label>
           <div class="form-group">
             <label>Border Color:</label>
             <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.border.color" v-on:change="addKeyframe()" />
