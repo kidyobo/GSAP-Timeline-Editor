@@ -125,12 +125,12 @@
               <label>Opacity:</label>
             </div>
             <div class="col-xs-6">
-              <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="opacity" v-on:keyup="addKeyframe()">
+              <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="elements[elementActiveIndex].properties.opacity" v-on:keyup="addKeyframe()">
             </div>
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
-              <input type="range" class="range-opacity" v-model="opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
+              <input type="range" class="range-opacity" v-model="elements[elementActiveIndex].properties.opacity" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
 
             </div>
           </div>
