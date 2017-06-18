@@ -82,7 +82,12 @@ body {
 }
 
 .element-focused {
-    background-color: blue;
+    background-color: #8BC34A;
+}
+
+.element-item {
+    cursor: pointer;
+    padding: 0 15px;
 }
 
 .element-sidebar {
@@ -97,7 +102,7 @@ body {
 }
 
 .element-sidebar-inner {
-    padding: 15px;
+    padding: 15px 0;
 }
 
 .embed-code {

@@ -37,7 +37,7 @@
     <div class="wrapper">
       <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
         <div class="element-sidebar-inner">
-          <div v-for="(element, index) in elements" :class="{'element-focused': elements[index].isFocused}" @click="focusElement(index)">
+          <div v-for="(element, index) in elements" class="element-item" :class="{'element-focused': elements[index].isFocused}" @click="focusElement(index)">
             {{element.name}}
           </div>
           <context-menu id="context-menu" ref="ctxMenu">
