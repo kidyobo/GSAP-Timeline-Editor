@@ -56,6 +56,7 @@
         </div>
       </div>
       <aside class="sidebar">
+      <div v-if="elements.length > elementActiveIndex">
         <div class="properties-title">
           <span class="glyphicon glyphicon-cog"></span> Properties
         </div>
@@ -137,13 +138,13 @@
         <div class="animation-property">
           <div class="form-group">
             <label>Background Color:</label>
-            <input type="color" class="form-control" v-model="elements[0].properties.backgroundColor.value" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.backgroundColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
         <div class="animation-property">
           <div class="form-group">
             <label>Border Color:</label>
-            <input type="color" class="form-control" v-model="elements[0].properties.border.color" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.border.color" v-on:change="addKeyframe()" />
           </div>
           <div class="form-group row">
             <div class="col-xs-12">
@@ -174,6 +175,7 @@
             <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
           </div>
         </div>
+      </div>
       </aside>
       <div class="keyframes">
         <div class="animation-property">
@@ -277,6 +279,7 @@ export default {
           }
         ]
       }],
+      elementActiveIndex: 0,
       frame: 0,
       height: 100,
       incrementTime: 1,
