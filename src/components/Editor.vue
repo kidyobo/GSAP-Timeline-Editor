@@ -142,9 +142,9 @@
           </div>
         </div>
         <div class="animation-property" v-if="elements[elementActiveIndex].properties.border.show">
-          <label>Border</label>
+          <label><input type="checkbox" v-model="elements[elementActiveIndex].properties.border.enabled"> Border</label>
           <div class="form-group">
-            <label>Border Color:</label>
+            <label>Color:</label>
             <input type="color" class="form-control" v-model="elements[elementActiveIndex].properties.border.color" v-on:change="addKeyframe()" />
           </div>
           <div class="form-group row">
@@ -246,6 +246,7 @@ export default {
             value: "#000000"
           },
           border: {
+            enabled: true,
             show: true,
             color: "#000000",
             width: 1
