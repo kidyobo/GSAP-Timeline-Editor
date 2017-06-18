@@ -105,18 +105,18 @@
               </div>
             </div>
           </div>
-            <div class="form-group row">
-                <div class="col-xs-12">
-                    <div class="flex">
-                        <div class="input-label">
-                            Rotation
-                        </div>
-                        <div class="rotation-input">
-                            <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <div class="form-group row">
+              <div class="col-xs-12">
+                  <div class="flex">
+                      <div class="input-label">
+                          Rotation
+                      </div>
+                      <div class="rotation-input">
+                          <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
         <div class="animation-property">
           <div class="form-group row">
@@ -143,7 +143,19 @@
         <div class="animation-property">
           <div class="form-group">
             <label>Border Color:</label>
-            <input type="color" class="form-control" v-model="elements[0].properties.borderColor.value" v-on:change="addKeyframe()" />
+            <input type="color" class="form-control" v-model="elements[0].properties.border.color" v-on:change="addKeyframe()" />
+          </div>
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Width
+                </div>
+                <div class="rotation-input">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="elements[0].properties.border.width" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="animation-property">
@@ -230,9 +242,10 @@ export default {
             show: false,
             value: "#000000"
           },
-          borderColor: {
+          border: {
             show: false,
-            value: "#000000"
+            color: "#000000",
+            width: 1
           },
         },
         keyframes: [
