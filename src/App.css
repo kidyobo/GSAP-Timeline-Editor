@@ -98,6 +98,7 @@ body {
     right: 0;
     top: 20px;
     width: 300px;
+    z-index: 1;
 }
 
 .flex {
