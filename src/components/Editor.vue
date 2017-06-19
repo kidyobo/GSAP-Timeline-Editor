@@ -142,7 +142,7 @@
           </div>
         </div>
         <div class="animation-property" v-if="activeElementProps().border.show">
-          <label><input type="checkbox" v-model="activeElementProps().border.enabled"> Border</label>
+          <label><input type="checkbox" v-model="activeElementProps().border.enabled" v-on:change="toggleProperty()"> Border</label>
 
           <div class="form-group row">
             <div class="col-xs-12">
@@ -671,6 +671,9 @@ export default {
         this.updateSlider();
 
       },
+      toggleProperty: function() {
+        this.updateTimeline();
+      },
       updateDuration: function() {
 
         var that = this;
@@ -703,16 +706,16 @@ export default {
 
             obj = {
               backgroundColor: keyframe.backgroundColor,
-              border: keyframe.borderWidth + " solid " + keyframe.borderColor,
               height: keyframe.height,
               left: keyframe.left,
               opacity: keyframe.opacity,
               rotation: keyframe.rotation,
               top: keyframe.top,
-              width: keyframe.width + 'px',
-              onComplete: function() {
-                  that.tl.restart();
-              }
+              width: keyframe.width + 'px'
+            }
+
+            if (that.activeElementProps().border.enabled) {
+              obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
             }
 
             if (index === total_keyframes - 1) {
