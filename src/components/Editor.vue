@@ -35,7 +35,8 @@
       </div>
     </header>
     <div class="wrapper">
-      <div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">
+      <!--<div class="element-sidebar" @contextmenu.prevent="$refs.ctxMenu.open">-->
+      <div class="element-sidebar">
         <div class="element-sidebar-inner">
           <div v-for="(element, index) in elements" class="element-item" :class="{'element-focused': index === elementActiveIndex}" @click="focusElement(index)">
             {{element.name}}
@@ -109,10 +110,10 @@
             <div class="col-xs-12">
               <div class="flex">
                 <div class="input-label">
-                    Rotation
+                  Rotation
                 </div>
                 <div class="rotation-input">
-                    <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().rotation.value" v-on:keyup="addKeyframe()">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().rotation.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -130,7 +131,6 @@
           <div class="form-group row">
             <div class="col-xs-12">
               <input type="range" class="range-opacity" v-model="activeElementProps().opacity.value" v-on:change="addKeyframe()" min="0" max="1" step="0.1">
-
             </div>
           </div>
         </div>
@@ -188,7 +188,7 @@
           <div class="form-group">
             <label>Keyframes:</label>
             <div v-for="(keyframe, index) in keyframes()">
-                {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
+              {{keyframe.duration}} <span v-on:click="removeKeyframe(index)" class="glyphicon glyphicon-remove-circle"></span>
             </div>
           </div>
         </div>
@@ -211,9 +211,9 @@
           </div>
           <!--<div v-for="i in 10" class="timeline-grey-bar" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}"></div>-->
           <span v-for="i in 100" class="timeline-time" v-bind:style="{left: (i - 1) * secondToPixels + 'px'}">
-              <div v-if="(i - 1) % incrementTime === 0">
-                  {{ fancyTimeFormat(i - 1) }}
-              </div>
+            <div v-if="(i - 1) % incrementTime === 0">
+              {{ fancyTimeFormat(i - 1) }}
+            </div>
           </span>
         </div>
       </div>
@@ -419,9 +419,6 @@ export default {
       },
       addElement: function() {
         this.elements.push($.extend({}, this.elementTemplate));
-        this.attachKeyframeDrag();
-
-        this.tl = new TimelineLite();
         
         this.updateTimeline();
 
@@ -484,20 +481,20 @@ export default {
 
           setTimeout(function() {
 
-              $('.keyframe-bar').draggable({
-                  axis: 'x',
-                  containment: ".timeline",
-                  grid: [ 1 ],
-                  stop: function( event, ui ) {
+            $('.keyframe-bar').draggable({
+                axis: 'x',
+                containment: ".timeline",
+                grid: [ 1 ],
+                stop: function( event, ui ) {
 
-                      var index = $(this).index();
-                      that.keyframes()[index].time = ui.position.left / that.secondToPixels;
-                      that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
+                    var index = $(this).index();
+                    that.keyframes()[index].time = ui.position.left / that.secondToPixels;
+                    that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
 
-                      that.updateTimeline();
+                    that.updateTimeline();
 
-                  }
-              });
+                }
+            });
 
           }, 1);
 
@@ -596,39 +593,39 @@ export default {
       },
       setLayout: function() {
 
-          var that = this;
+        var that = this;
 
-          $(window).resize(function() {
-              that.resizeLayout();
-          });
+        $(window).resize(function() {
+            that.resizeLayout();
+        });
 
-          this.resizeLayout();
+        this.resizeLayout();
 
-          $('.timeline').mousewheel(function(e) {
-              // if delta y is up
-              if (e.deltaY === 1) {
+        $('.timeline').mousewheel(function(e) {
+          // if delta y is up
+          if (e.deltaY === 1) {
 
-                  that.secondToPixels += 1;
+            that.secondToPixels += 1;
 
-                  if ((that.secondToPixels % 20) === 0) {
+            if ((that.secondToPixels % 20) === 0) {
 
-                      that.incrementTime -= 1;
+                that.incrementTime -= 1;
 
-                  }
+            }
 
-              // if delta y is down
-              } else if (e.deltaY === -1) {
+          // if delta y is down
+          } else if (e.deltaY === -1) {
 
-                  that.secondToPixels -= 1;
+            that.secondToPixels -= 1;
 
-                  if ((that.secondToPixels % 20) === 0) {
+            if ((that.secondToPixels % 20) === 0) {
 
-                      that.incrementTime += 1;
+                that.incrementTime += 1;
 
-                  }
+            }
 
-              }
-          });
+          }
+        });
       },
       showEmbedCode: function() {
 
