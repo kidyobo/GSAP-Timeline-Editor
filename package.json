@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "vue": "^2.3.3",
-    "vue-gh-pages": "^1.4.0"
+    "vue-gh-pages": "^1.4.0",
+    "vue-js-popover": "1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

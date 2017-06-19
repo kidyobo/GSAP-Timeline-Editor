@@ -141,8 +141,12 @@
             <input type="color" class="form-control" v-model="activeElementProps().backgroundColor.value" v-on:change="addKeyframe()" />
           </div>
         </div>
+
         <div class="animation-property" v-if="activeElementProps().border.show">
-          <label><input type="checkbox" v-model="activeElementProps().border.enabled" v-on:change="toggleProperty()"> Border</label>
+          <div>
+            <label><input type="checkbox" v-model="activeElementProps().border.enabled" v-on:change="toggleProperty()"> Border</label>
+            <span class="glyphicon glyphicon-cog pull-right"></span>
+          </div>
 
           <div class="form-group row">
             <div class="col-xs-12">
