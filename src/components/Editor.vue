@@ -49,7 +49,6 @@
       </div>
       
       <div class="main">
-        <div id="demo"></div>
         <div v-for="element in elements">
           <div v-if="element.class === 'el-circle'" class="el-circle"></div>
           <div v-else class="el"></div>
@@ -435,6 +434,17 @@ export default {
         //if (frame === undefined) {
 
         var keyframe_time = this.activeElement().frame / this.secondToPixels;
+        var obj_props = {
+          backgroundColor: this.activeElementProps().backgroundColor.value,
+          duration: 0,
+          height: this.activeElementProps().height.value,
+          left: this.activeElementProps().left.value,
+          opacity: this.activeElementProps().opacity.value,
+          rotation: this.activeElementProps().rotation.value,
+          time: keyframe_time,
+          top: this.activeElementProps().top.value,
+          width: this.activeElementProps().width.value
+        };
 
         // find first keyframe that is bigger than added keyframe
         // and splice the new keyframe in 
@@ -442,33 +452,13 @@ export default {
 
           if (this.keyframes()[i].time > keyframe_time) {
 
-            this.keyframes().splice(i, 0, {
-                backgroundColor: this.activeElementProps().backgroundColor.value,
-                duration: 0,
-                height: this.activeElementProps().height.value,
-                left: this.activeElementProps().left.value,
-                opacity: this.activeElementProps().opacity.value,
-                rotation: this.activeElementProps().rotation.value,
-                time: keyframe_time,
-                top: this.activeElementProps().top.value,
-                width: this.activeElementProps().width.value
-            });
+            this.keyframes().splice(i, 0, obj_props);
 
             break;
 
           } else if (this.keyframes()[i].time === keyframe_time) {
 
-            this.keyframes().splice(i, 1, {
-                backgroundColor: this.activeElementProps().backgroundColor.value,
-                duration: 0,
-                height: this.activeElementProps().height.value,
-                left: this.activeElementProps().left.value,
-                opacity: this.activeElementProps().opacity.value,
-                rotation: this.activeElementProps().rotation.value,
-                time: keyframe_time,
-                top: this.activeElementProps().top.value,
-                width: this.activeElementProps().width.value
-            });
+            this.keyframes().splice(i, 1, obj_props);
 
             break;
 
@@ -696,26 +686,30 @@ export default {
 
                 var total_keyframes = this.keyframes().length;
 
-                this.keyframes().forEach(function (keyframe, index) {
+                this.elements.forEach((element) => {
+                  this.keyframes().forEach(function (keyframe, index) {
 
-                  that.tl.to($('#demo'), keyframe.duration, {
-                      backgroundColor: keyframe.backgroundColor,
-                      border: keyframe.borderWidth + " solid " + keyframe.borderColor,
-                      height: keyframe.height,
-                      left: keyframe.left,
-                      opacity: keyframe.opacity,
-                      rotation: keyframe.rotation,
-                      top: keyframe.top,
-                      width: keyframe.width + 'px',
-                      onComplete: function() {
-                        if (index === total_keyframes - 1) {
-                          that.tl.restart();
+                    that.tl.to($('#demo'), keyframe.duration, {
+                        backgroundColor: keyframe.backgroundColor,
+                        border: keyframe.borderWidth + " solid " + keyframe.borderColor,
+                        height: keyframe.height,
+                        left: keyframe.left,
+                        opacity: keyframe.opacity,
+                        rotation: keyframe.rotation,
+                        top: keyframe.top,
+                        width: keyframe.width + 'px',
+                        onComplete: function() {
+                          if (index === total_keyframes - 1) {
+                            that.tl.restart();
+                          }
+
                         }
+                    });
 
-                      }
                   });
-
                 });
+
+                
 
             },
             updateSlider() {
