@@ -695,12 +695,13 @@ export default {
         var that = this;
 
         var total_keyframes;
+        var obj;
 
         this.elements.forEach((element, elem_index) => {
           total_keyframes = element.keyframes.length;
           element.keyframes.forEach(function (keyframe, index) {
 
-            that.tl.to($('.el').eq(elem_index), keyframe.duration, {
+            obj = {
               backgroundColor: keyframe.backgroundColor,
               border: keyframe.borderWidth + " solid " + keyframe.borderColor,
               height: keyframe.height,
@@ -710,12 +711,17 @@ export default {
               top: keyframe.top,
               width: keyframe.width + 'px',
               onComplete: function() {
-                if (index === total_keyframes - 1) {
                   that.tl.restart();
-                }
-
               }
-            });
+            }
+
+            if (index === total_keyframes - 1) {
+              obj.onComplete = function() {
+                  that.tl.restart();
+              }
+            }
+
+            that.tl.to($('.el').eq(elem_index), keyframe.duration, obj);
 
           });
         });
