@@ -697,42 +697,22 @@ export default {
 
                 this.keyframes().forEach(function (keyframe, index) {
 
-                    if (index === total_keyframes - 1) {
+                  that.tl.to($('#demo'), keyframe.duration, {
+                      backgroundColor: keyframe.backgroundColor,
+                      border: keyframe.borderWidth + " solid " + keyframe.borderColor,
+                      height: keyframe.height,
+                      left: keyframe.left,
+                      opacity: keyframe.opacity,
+                      rotation: keyframe.rotation,
+                      top: keyframe.top,
+                      width: keyframe.width + 'px',
+                      onComplete: function() {
+                        if (index === total_keyframes - 1) {
+                          that.tl.restart();
+                        }
 
-                        that.tl.to($('#demo'), keyframe.duration, {
-                            backgroundColor: keyframe.backgroundColor,
-                            border: keyframe.borderWidth + " solid " + keyframe.borderColor,
-                            //borderColor: keyframe.borderColor,
-                            //borderWidth: keyframe.borderWidth,
-                            height: keyframe.height,
-                            left: keyframe.left,
-                            opacity: keyframe.opacity,
-                            rotation: keyframe.rotation,
-                            top: keyframe.top,
-                            width: keyframe.width + 'px',
-                            onComplete: function() {
-
-                                that.tl.restart();
-
-                            }
-                        });
-
-                    } else {
-
-                        that.tl.to($('#demo'), keyframe.duration, {
-                            backgroundColor: keyframe.backgroundColor,
-                            border: keyframe.borderWidth + " solid " + keyframe.borderColor,
-                            //borderColor: keyframe.borderColor,
-                            //borderWidth: keyframe.borderWidth,
-                            height: keyframe.height,
-                            left: keyframe.left,
-                            opacity: keyframe.opacity,
-                            rotation: keyframe.rotation,
-                            top: keyframe.top,
-                            width: keyframe.width + 'px'
-                        });
-
-                    }
+                      }
+                  });
 
                 });
 
