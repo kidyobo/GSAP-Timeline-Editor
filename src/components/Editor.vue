@@ -123,7 +123,7 @@
         <div class="animation-property">
           <div class="form-group row">
             <div class="col-xs-6">
-              <label>Opacity:</label>
+              <label><input type="checkbox" v-model="activeElementProps().opacity.enabled" v-on:change="toggleProperty()"> Opacity:</label>
             </div>
             <div class="col-xs-6">
               <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="activeElementProps().opacity.value" v-on:keyup="addKeyframe()">
@@ -271,6 +271,7 @@ export default {
             value: 200
           },
           opacity: {
+            enabled: true,
             value: 1.0
           },
           rotation: {
@@ -335,6 +336,7 @@ export default {
             value: 200
           },
           opacity: {
+            enabled: true,
             value: 1.0
           },
           rotation: {
