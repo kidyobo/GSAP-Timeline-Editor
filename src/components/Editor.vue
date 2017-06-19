@@ -788,8 +788,6 @@ export default {
     mounted() {
         var that = this;
 
-        this.addElement();
-
         $('.color-bar').draggable({
             axis: 'x',
             containment: ".timeline",
