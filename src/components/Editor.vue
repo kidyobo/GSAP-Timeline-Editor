@@ -237,7 +237,7 @@ export default {
       activeFrame: 0,
       animationPlaying: false,
       duration: 3,
-      elements: [{
+      elementTemplate: {
         frame: 0,
         class: "el",
         name: ".el",
@@ -300,7 +300,8 @@ export default {
             width: 500
           }
         ]
-      }],
+      },
+      elements: [$.extend({}, this.elementTemplate)],
       elementActiveIndex: 0,
       incrementTime: 1,
       properties: {
@@ -309,10 +310,30 @@ export default {
           value: "#000000"
         },
         border: {
+          enabled: true,
           show: true,
           color: "#000000",
           width: 1
         },
+        height: {
+          show: false,
+          value: 100
+        },
+        left: {
+          value: 200
+        },
+        opacity: {
+          value: 1.0
+        },
+        rotation: {
+          value: 0
+        },
+        top: {
+          value: 0
+        },
+        width: {
+          value: 100
+        }
       },
       properties_select: "",
       rotation: 0,
@@ -334,11 +355,7 @@ export default {
         });
       },
       addElement: function() {
-        this.elements.push({
-          class: "el",
-          name: ".el",
-          properties: $.extend({}, this.properties)
-        });
+        this.elements.push($.extend({}, this.elementTemplate));
       },
       addProperty: function() {
 
@@ -727,6 +744,8 @@ export default {
     },
     mounted() {
         var that = this;
+
+        this.addElement();
 
         $('.color-bar').draggable({
             axis: 'x',
