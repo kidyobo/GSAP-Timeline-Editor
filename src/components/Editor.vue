@@ -52,7 +52,7 @@
       <div class="main">
         <div v-for="element in elements">
           <div v-if="element.class === 'el-circle'" class="el-circle"></div>
-          <div v-else class="el" style="transform: rotate(0deg);"></div>
+          <div v-else class="el2" style="transform: rotate(0deg);"></div>
         </div>
       </div>
       <aside class="sidebar">
@@ -715,6 +715,7 @@ export default {
           let elem_props = this.elements[index].properties;
 
           elem.frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
+          elem_props.backgroundColor.value = "#" + rgbHex($(".el").eq(index).css("backgroundColor"));
           elem_props.height.value = parseInt($(".el").eq(index).css("height"), 10);
           elem_props.left.value = parseInt($(".el").eq(index).css("left"), 10);
           elem_props.opacity.value = Math.round($(".el").eq(index).css("opacity") * 10 ) / 10;
