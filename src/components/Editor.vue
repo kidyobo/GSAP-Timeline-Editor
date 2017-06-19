@@ -19,6 +19,7 @@
                 <p v-for="(keyframe, index) in keyframes()" v-if="index !== 0">
                 tl.to($('#el'), {{keyframe.duration}}, {
                     backgroundColor: "{{keyframe.backgroundColor}}",
+                    border: "{{keyframe.borderWidth}} solid {{keyframe.borderColor}}",
                     height: "{{keyframe.height}}px",
                     left: {{keyframe.left}},
                     opacity: {{keyframe.opacity}},
@@ -449,6 +450,8 @@ export default {
         var keyframe_time = this.activeElement().frame / this.secondToPixels;
         var obj_props = {
           backgroundColor: this.activeElementProps().backgroundColor.value,
+          borderColor: this.activeElementProps().borderColor,
+          borderWidth: this.activeElementProps().borderWidth,
           duration: 0,
           height: this.activeElementProps().height.value,
           left: this.activeElementProps().left.value,
@@ -487,26 +490,26 @@ export default {
       },
       attachKeyframeDrag: function() {
 
-          var that = this;
+        var that = this;
 
-          setTimeout(function() {
+        setTimeout(function() {
 
-            $('.keyframe-bar').draggable({
-                axis: 'x',
-                containment: ".timeline",
-                grid: [ 1 ],
-                stop: function( event, ui ) {
+          $('.keyframe-bar').draggable({
+            axis: 'x',
+            containment: ".timeline",
+            grid: [ 1 ],
+            stop: function( event, ui ) {
 
-                    var index = $(this).index();
-                    that.keyframes()[index].time = ui.position.left / that.secondToPixels;
-                    that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
+                var index = $(this).index();
+                that.keyframes()[index].time = ui.position.left / that.secondToPixels;
+                that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
 
-                    that.updateTimeline();
+                that.updateTimeline();
 
-                }
-            });
+            }
+          });
 
-          }, 1);
+        }, 1);
 
       },
       fancyTimeFormat: function(time) {   
