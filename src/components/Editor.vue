@@ -228,6 +228,7 @@ import $ from 'jquery';
 import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
 import contextMenu from 'vue-context-menu';
+import rgbHex from 'rgb-hex';
 import '../Slider.css'
 
 export default {
@@ -726,6 +727,10 @@ export default {
                 this.activeElementProps().rotation.value = this.getRotation(document.getElementById("demo"));
                 this.activeElementProps().top.value = parseInt(document.getElementById("demo").style.top, 10);
                 this.activeElementProps().width.value = parseInt(document.getElementById("demo").style.width, 10);
+
+                // border props
+                this.activeElementProps().border.width = parseInt(document.getElementById("demo").style.borderWidth, 10);
+                this.activeElementProps().border.color = "#" + rgbHex(document.getElementById("demo").style.borderColor);
 
                 //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
                 if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
