@@ -51,7 +51,7 @@
       <div class="main">
         <div v-for="element in elements">
           <div v-if="element.class === 'el-circle'" class="el-circle"></div>
-          <div v-else class="el"></div>
+          <div v-else class="el" style="transform: rotate(0deg);"></div>
         </div>
       </div>
       <aside class="sidebar">
@@ -419,6 +419,12 @@ export default {
       },
       addElement: function() {
         this.elements.push($.extend({}, this.elementTemplate));
+        this.attachKeyframeDrag();
+
+        this.tl = new TimelineLite();
+        
+        this.updateTimeline();
+
       },
       addProperty: function() {
 
@@ -487,12 +493,6 @@ export default {
                       var index = $(this).index();
                       that.keyframes()[index].time = ui.position.left / that.secondToPixels;
                       that.totalSeconds = that.keyframes()[that.keyframes().length - 1].time;
-
-                      /*that.sortKeyframes();
-                      that.tl.progress(that.keyframes()[0].time / that.totalSeconds);
-                      that.updateDuration();
-                      that.updateKeyframes();
-                      that.updateTotalSeconds();*/
 
                       that.updateTimeline();
 
@@ -580,231 +580,235 @@ export default {
         this.updateTimeline();
 
       },
-            resizeLayout: function() {
-              $(".timeline").css({
-                left: $('.element-sidebar').width(),
-                width: $(window).width() - $('.sidebar').width() - $('.element-sidebar').width()
-              });
-
-              $('.sidebar').css({
-                height: $(window).height() - $('header').height()
-              });
-
-              $('.element-sidebar').css({
-                height: $(window).height() - $('header').height() - 200
-              });
-            },
-            setLayout: function() {
-
-                var that = this;
-
-                $(window).resize(function() {
-                    that.resizeLayout();
-                });
-
-                this.resizeLayout();
-
-                $('.timeline').mousewheel(function(e) {
-                    // if delta y is up
-                    if (e.deltaY === 1) {
-
-                        that.secondToPixels += 1;
-
-                        if ((that.secondToPixels % 20) === 0) {
-
-                            that.incrementTime -= 1;
-
-                        }
-
-                    // if delta y is down
-                    } else if (e.deltaY === -1) {
-
-                        that.secondToPixels -= 1;
-
-                        if ((that.secondToPixels % 20) === 0) {
-
-                            that.incrementTime += 1;
-
-                        }
-
-                    }
-                });
-            },
-            showEmbedCode: function() {
-
-                if (this.showCode === false) {
-
-                    this.showCode = true;
-
-                } else {
-
-                    this.showCode = false;
-
-                }
-
-            },
-            sortKeyframes: function() {
-
-                this.keyframes().sort(function(a, b) {
-
-                    return parseFloat(a.time) - parseFloat(b.time);
-
-                });
-
-            },
-            stopAnimation() {
-
-                this.animationComplete = false;
-                this.animationPlaying = false;
-                this.tl.restart();
-                this.tl.stop();
-                this.updateSlider();
-
-            },
-            updateDuration: function() {
-
-                var that = this;
-
-                this.keyframes().forEach(function(keyframe, index) {
-
-                    if (index === 0) {
-
-                        that.keyframes()[index].duration = that.keyframes()[index].time;
-
-                    } else {
-
-                        that.keyframes()[index].duration = that.keyframes()[index].time - that.keyframes()[index - 1].time;
-
-                    }
-
-                });
-
-            },
-            updateKeyframes: function() {
-
-                var that = this;
-
-                var total_keyframes = this.keyframes().length;
-
-                this.elements.forEach((element) => {
-                  this.keyframes().forEach(function (keyframe, index) {
-
-                    that.tl.to($('#demo'), keyframe.duration, {
-                        backgroundColor: keyframe.backgroundColor,
-                        border: keyframe.borderWidth + " solid " + keyframe.borderColor,
-                        height: keyframe.height,
-                        left: keyframe.left,
-                        opacity: keyframe.opacity,
-                        rotation: keyframe.rotation,
-                        top: keyframe.top,
-                        width: keyframe.width + 'px',
-                        onComplete: function() {
-                          if (index === total_keyframes - 1) {
-                            that.tl.restart();
-                          }
-
-                        }
-                    });
-
-                  });
-                });
-
-                
-
-            },
-            updateSlider() {
-
-                this.activeElement().frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
-                this.activeElementProps().height.value = parseInt(document.getElementById("demo").style.height, 10);
-                this.activeElementProps().left.value = parseInt(document.getElementById("demo").style.left, 10);
-                this.activeElementProps().opacity.value = Math.round( document.getElementById("demo").style.opacity * 10 ) / 10;
-                this.activeElementProps().rotation.value = this.getRotation(document.getElementById("demo"));
-                this.activeElementProps().top.value = parseInt(document.getElementById("demo").style.top, 10);
-                this.activeElementProps().width.value = parseInt(document.getElementById("demo").style.width, 10);
-
-                // border props
-                this.activeElementProps().border.width = parseInt(document.getElementById("demo").style.borderWidth, 10);
-                this.activeElementProps().border.color = "#" + rgbHex(document.getElementById("demo").style.borderColor);
-
-                //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
-                if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
-                    this.tl.progress(this.keyframes()[0].time / this.totalSeconds)
-                }
-                $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
-                //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
-
-            },
-            updateTimeline(frame) {
-
-                var that = this;
-
-                this.updateDuration();
-
-                this.animationComplete = false;
-                this.animationPlaying = false;
-
-                if (frame !== undefined) {
-
-                    this.tl.progress(this.activeElement().frame / (that.totalSeconds * that.secondToPixels));
-
-                } else {
-
-                    that.tl.progress(that.keyframes()[0].time / that.totalSeconds);
-
-                }
-
-                this.tl.pause();
-
-                this.tl = undefined;
-
-                this.tl = new TimelineLite();
-
-                this.updateKeyframes();
-
-                this.updateTotalSeconds();
-
-                this.tl.eventCallback("onUpdate", this.updateSlider.bind(this));
-
-                this.tl.pause();
-
-            },
-            keyframeProperties: function (index) {
-                return $.map(this.keyframes()[index], function(v, i) {
-
-                    if (i !== 'duration') {
-                        return i;
-                    }
-
-                });
-            },
-            updateTotalSeconds() {
-
-                this.totalSeconds = this.keyframes()[this.keyframes().length - 1].time;
-
-            }
-        }
-    },
-    mounted() {
-        var that = this;
-
-        $('.color-bar').draggable({
-            axis: 'x',
-            containment: ".timeline",
-            grid: [ 1 ],
-            drag: function( event, ui ) {
-
-                that.tl.progress( ui.position.left / (that.totalSeconds * that.secondToPixels) );
-
-            }
+      resizeLayout: function() {
+        $(".timeline").css({
+          left: $('.element-sidebar').width(),
+          width: $(window).width() - $('.sidebar').width() - $('.element-sidebar').width()
         });
 
-        this.attachKeyframeDrag();
+        $('.sidebar').css({
+          height: $(window).height() - $('header').height()
+        });
+
+        $('.element-sidebar').css({
+          height: $(window).height() - $('header').height() - 200
+        });
+      },
+      setLayout: function() {
+
+          var that = this;
+
+          $(window).resize(function() {
+              that.resizeLayout();
+          });
+
+          this.resizeLayout();
+
+          $('.timeline').mousewheel(function(e) {
+              // if delta y is up
+              if (e.deltaY === 1) {
+
+                  that.secondToPixels += 1;
+
+                  if ((that.secondToPixels % 20) === 0) {
+
+                      that.incrementTime -= 1;
+
+                  }
+
+              // if delta y is down
+              } else if (e.deltaY === -1) {
+
+                  that.secondToPixels -= 1;
+
+                  if ((that.secondToPixels % 20) === 0) {
+
+                      that.incrementTime += 1;
+
+                  }
+
+              }
+          });
+      },
+      showEmbedCode: function() {
+
+          if (this.showCode === false) {
+
+              this.showCode = true;
+
+          } else {
+
+              this.showCode = false;
+
+          }
+
+      },
+      sortKeyframes: function() {
+
+        this.keyframes().sort(function(a, b) {
+
+          return parseFloat(a.time) - parseFloat(b.time);
+
+        });
+
+      },
+      stopAnimation() {
+
+        this.animationComplete = false;
+        this.animationPlaying = false;
+        this.tl.restart();
+        this.tl.stop();
+        this.updateSlider();
+
+      },
+      updateDuration: function() {
+
+        var that = this;
+
+        this.keyframes().forEach(function(keyframe, index) {
+
+            if (index === 0) {
+
+              that.keyframes()[index].duration = that.keyframes()[index].time;
+
+            } else {
+
+              that.keyframes()[index].duration = that.keyframes()[index].time - that.keyframes()[index - 1].time;
+
+            }
+
+        });
+
+      },
+      updateKeyframes: function() {
+
+        var that = this;
+
+        var total_keyframes;
+
+        this.elements.forEach((element, elem_index) => {
+          total_keyframes = element.keyframes.length;
+          element.keyframes.forEach(function (keyframe, index) {
+
+            that.tl.to($('.el').eq(elem_index), keyframe.duration, {
+              backgroundColor: keyframe.backgroundColor,
+              border: keyframe.borderWidth + " solid " + keyframe.borderColor,
+              height: keyframe.height,
+              left: keyframe.left,
+              opacity: keyframe.opacity,
+              rotation: keyframe.rotation,
+              top: keyframe.top,
+              width: keyframe.width + 'px',
+              onComplete: function() {
+                if (index === total_keyframes - 1) {
+                  that.tl.restart();
+                }
+
+              }
+            });
+
+          });
+        });
+
+      },
+      updateSlider() {
+        this.elements.forEach((element, index) => {
+
+          let elem = this.elements[index];
+          let elem_props = this.elements[index].properties;
+
+          elem.frame = Math.round(this.tl.progress() * (this.totalSeconds * this.secondToPixels));
+          elem_props.height.value = parseInt($(".el").eq(index).css("height"), 10);
+          elem_props.left.value = parseInt($(".el").eq(index).css("left"), 10);
+          elem_props.opacity.value = Math.round($(".el").eq(index).css("opacity") * 10 ) / 10;
+          elem_props.rotation.value = this.getRotation(document.getElementsByClassName('el')[index]);
+          elem_props.top.value = parseInt($(".el").eq(index).css("top"), 10);
+          elem_props.width.value = parseInt($(".el").eq(index).css("width"), 10);
+
+          // border props
+          elem_props.border.width = parseInt($(".el").eq(index).css("borderWidth"), 10);
+          elem_props.border.color = "#" + rgbHex($(".el").eq(index).css("borderColor"));
+        });
+
+        //$(".red-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels)) / 10) * 10);
+        if (this.tl.progress() * (this.totalSeconds * this.secondToPixels) === 0) {
+            this.tl.progress(this.keyframes()[0].time / this.totalSeconds)
+        }
+        $(".color-bar").css("left", Math.round((this.tl.progress() * (this.totalSeconds * this.secondToPixels))));
+        //$(".red-bar").css("left", Math.round((this.frame / 10) * 10));
+
+      },
+      updateTimeline(frame) {
+
+        var that = this;
+
+        this.updateDuration();
+
+        this.animationComplete = false;
+        this.animationPlaying = false;
+
+        if (frame !== undefined) {
+
+            this.tl.progress(this.activeElement().frame / (that.totalSeconds * that.secondToPixels));
+
+        } else {
+
+            that.tl.progress(that.keyframes()[0].time / that.totalSeconds);
+
+        }
+
+        this.tl.pause();
+
+        this.tl = undefined;
 
         this.tl = new TimelineLite();
-        
-        this.updateTimeline();
 
-        this.setLayout();
+        this.updateKeyframes();
+
+        this.updateTotalSeconds();
+
+        this.tl.eventCallback("onUpdate", this.updateSlider.bind(this));
+
+        this.tl.pause();
+
+      },
+      keyframeProperties: function (index) {
+        return $.map(this.keyframes()[index], function(v, i) {
+
+          if (i !== 'duration') {
+              return i;
+          }
+
+        });
+      },
+      updateTotalSeconds() {
+
+        this.totalSeconds = this.keyframes()[this.keyframes().length - 1].time;
+
+      }
+    }
+    },
+    mounted() {
+      var that = this;
+
+      $('.color-bar').draggable({
+        axis: 'x',
+        containment: ".timeline",
+        grid: [ 1 ],
+        drag: function( event, ui ) {
+
+          that.tl.progress( ui.position.left / (that.totalSeconds * that.secondToPixels) );
+
+        }
+      });
+
+      this.attachKeyframeDrag();
+
+      this.tl = new TimelineLite();
+      
+      this.updateTimeline();
+
+      this.setLayout();
 
     }
 }
