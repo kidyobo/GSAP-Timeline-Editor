@@ -52,7 +52,7 @@
       <div class="main">
         <div v-for="element in elements">
           <div v-if="element.class === 'el-circle'" class="el-circle"></div>
-          <div v-else class="el" style="transform: rotate(0deg);"></div>
+          <div v-else class="el"></div>
         </div>
       </div>
       <aside class="sidebar">
@@ -142,10 +142,20 @@
         </div>
         <div class="animation-property" v-if="activeElementProps().border.show">
           <label><input type="checkbox" v-model="activeElementProps().border.enabled"> Border</label>
-          <div class="form-group">
-            <label>Color:</label>
-            <input type="color" class="form-control" v-model="activeElementProps().border.color" v-on:change="addKeyframe()" />
+
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Color
+                </div>
+                <div class="rotation-input">
+                  <input type="color" class="form-control" v-model="activeElementProps().border.color" v-on:change="addKeyframe()" />
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="form-group row">
             <div class="col-xs-12">
               <div class="flex">
