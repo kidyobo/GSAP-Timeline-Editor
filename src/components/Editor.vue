@@ -444,13 +444,13 @@ export default {
             this.keyframes().splice(i, 0, {
                 backgroundColor: this.activeElementProps().backgroundColor.value,
                 duration: 0,
-                height: this.activeElementProps().height,
-                left: this.activeElementProps().left,
-                opacity: this.activeElementProps().opacity,
-                rotation: this.activeElementProps().rotation,
+                height: this.activeElementProps().height.value,
+                left: this.activeElementProps().left.value,
+                opacity: this.activeElementProps().opacity.value,
+                rotation: this.activeElementProps().rotation.value,
                 time: keyframe_time,
-                top: this.activeElementProps().top,
-                width: this.activeElementProps().width
+                top: this.activeElementProps().top.value,
+                width: this.activeElementProps().width.value
             });
 
             break;
@@ -460,13 +460,13 @@ export default {
             this.keyframes().splice(i, 1, {
                 backgroundColor: this.activeElementProps().backgroundColor.value,
                 duration: 0,
-                height: this.activeElementProps().height,
-                left: this.activeElementProps().left,
-                opacity: this.activeElementProps().opacity,
-                rotation: this.activeElementProps().rotation,
+                height: this.activeElementProps().height.value,
+                left: this.activeElementProps().left.value,
+                opacity: this.activeElementProps().opacity.value,
+                rotation: this.activeElementProps().rotation.value,
                 time: keyframe_time,
-                top: this.activeElementProps().top,
-                width: this.activeElementProps().width
+                top: this.activeElementProps().top.value,
+                width: this.activeElementProps().width.value
             });
 
             break;
