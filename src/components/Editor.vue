@@ -113,7 +113,7 @@
                     Rotation
                 </div>
                 <div class="rotation-input">
-                    <input class="form-control input-sm input-number pull-right" type="number" v-model="rotation" v-on:keyup="addKeyframe()">
+                    <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().rotation.value" v-on:keyup="addKeyframe()">
                 </div>
               </div>
             </div>
@@ -262,6 +262,9 @@ export default {
           opacity: {
             value: 1.0
           },
+          rotation: {
+            value: 0
+          },
           top: {
             value: 0
           },
@@ -299,11 +302,7 @@ export default {
         ]
       }],
       elementActiveIndex: 0,
-      //frame: 0,
-      //height: 100,
       incrementTime: 1,
-      //left: 200,
-      //opacity: 1.0,
       properties: {
         backgroundColor: {
           show: false,
@@ -321,8 +320,6 @@ export default {
       showCode: false,
       timelineBars: 100,
       totalSeconds: 3,
-      //top: 0,
-      //width: 100,
       activeElement() {
         return this.elements[this.elementActiveIndex];
       },
