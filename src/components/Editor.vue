@@ -122,10 +122,10 @@
         </div>
         <div class="animation-property">
           <div class="form-group row">
-            <div class="col-xs-6">
+            <div class="col-xs-8">
               <label><input type="checkbox" v-model="activeElementProps().opacity.enabled" v-on:change="toggleProperty()"> Opacity:</label>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-4">
               <input class="form-control input-sm input-number pull-right opacity" type="number" v-model="activeElementProps().opacity.value" v-on:keyup="addKeyframe()">
             </div>
           </div>
@@ -710,7 +710,6 @@ export default {
               backgroundColor: keyframe.backgroundColor,
               height: keyframe.height,
               left: keyframe.left,
-              opacity: keyframe.opacity,
               rotation: keyframe.rotation,
               top: keyframe.top,
               width: keyframe.width + 'px'
@@ -718,6 +717,10 @@ export default {
 
             if (that.activeElementProps().border.enabled) {
               obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
+            }
+
+            if (that.activeElementProps().opacity.enabled) {
+              obj.opacity = keyframe.opacity;
             }
 
             if (index === total_keyframes - 1) {
