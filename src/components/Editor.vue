@@ -52,7 +52,7 @@
       <div class="main">
         <div v-for="element in elements">
           <div v-if="element.class === 'el-circle'" class="el-circle"></div>
-          <div v-else class="el2" style="transform: rotate(0deg);"></div>
+          <div v-else class="el" style="transform: rotate(0deg);"></div>
         </div>
       </div>
       <aside class="sidebar">
