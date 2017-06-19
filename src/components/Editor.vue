@@ -301,7 +301,70 @@ export default {
           }
         ]
       },
-      elements: [$.extend({}, this.elementTemplate)],
+      elements: [{
+        frame: 0,
+        class: "el",
+        name: ".el",
+        properties: {
+          backgroundColor: {
+            show: false,
+            value: "#000000"
+          },
+          border: {
+            enabled: true,
+            show: true,
+            color: "#000000",
+            width: 1
+          },
+          height: {
+            show: false,
+            value: 100
+          },
+          left: {
+            value: 200
+          },
+          opacity: {
+            value: 1.0
+          },
+          rotation: {
+            value: 0
+          },
+          top: {
+            value: 0
+          },
+          width: {
+            value: 100
+          }
+        },
+        keyframes: [
+          {
+            backgroundColor: "#000000",
+            borderColor: "blue",
+            borderWidth: "1px",
+            duration: 0,
+            height: 100,
+            left: 0,
+            opacity: 1,
+            rotation: 0,
+            time: 0,
+            top: 0,
+            width: 100
+          },
+          {
+            backgroundColor: "#000000",
+            borderColor: "green",
+            borderWidth: "25px",
+            duration: 3,
+            height: 200,
+            left: 200,
+            opacity: 0.5,
+            rotation: 90,
+            time: 3,
+            top: 200,
+            width: 500
+          }
+        ]
+      }],
       elementActiveIndex: 0,
       incrementTime: 1,
       properties: {
@@ -370,7 +433,7 @@ export default {
 
         //if (frame === undefined) {
 
-        var keyframe_time = this.frame / this.secondToPixels;
+        var keyframe_time = this.activeElement().frame / this.secondToPixels;
 
         // find first keyframe that is bigger than added keyframe
         // and splice the new keyframe in 
@@ -498,7 +561,7 @@ export default {
         return angle;
       },
       keyframes() {
-        return this.elements[0].keyframes;
+        return this.elements[this.elementActiveIndex].keyframes;
       },
       playAnimation() {
 
@@ -703,7 +766,7 @@ export default {
 
                 if (frame !== undefined) {
 
-                    this.tl.progress(this.frame / (that.totalSeconds * that.secondToPixels));
+                    this.tl.progress(this.activeElement().frame / (that.totalSeconds * that.secondToPixels));
 
                 } else {
 
