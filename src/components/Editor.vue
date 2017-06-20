@@ -173,6 +173,19 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Border Bottom
+                </div>
+                <div class="rotation-input">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.bottomWidth" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="animation-property">
           <div class="form-group">
@@ -180,11 +193,7 @@
             <select class="form-control" v-model="properties_select">
               <option>Background Color</option>
               <option>Border</option>
-              <option>Height</option>
-              <option>Left</option>
               <option>Opacity</option>
-              <option>Top</option>
-              <option>Width</option>
             </select>
           </div>
           <div class="form-group">
@@ -328,6 +337,7 @@ export default {
             value: "#000000"
           },
           border: {
+            bottomWidth: 1,
             enabled: true,
             show: false,
             color: "#000000",
@@ -456,8 +466,9 @@ export default {
         var keyframe_time = this.activeElement().frame / this.secondToPixels;
         var obj_props = {
           backgroundColor: this.activeElementProps().backgroundColor.value,
-          borderColor: this.activeElementProps().borderColor,
-          borderWidth: this.activeElementProps().borderWidth,
+          borderBottomWidth: this.activeElementProps().border.bottomWidth,
+          borderColor: this.activeElementProps().border.color,
+          borderWidth: this.activeElementProps().border.width,
           duration: 0,
           height: this.activeElementProps().height.value,
           left: this.activeElementProps().left.value,
@@ -722,6 +733,7 @@ export default {
             if (that.activeElementProps().border.enabled &&
               that.activeElementProps().border.show) {
               obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
+              //obj.border = keyframe.borderBottomWidth + " solid " + keyframe.borderColor;
             }
 
             if (that.activeElementProps().opacity.enabled &&
