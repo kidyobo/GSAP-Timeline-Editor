@@ -443,9 +443,7 @@ export default {
       },
       addProperty: function() {
         if (this.properties_select === "Border") {
-          this.elements[this.elementActiveIndex].properties.
           this.activeElementProps().border.show = true;
-          console.log(this.activeElementProps().border.show)
         }
 
       },
