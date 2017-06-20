@@ -446,6 +446,8 @@ export default {
           this.activeElementProps().border.show = true;
         }
 
+        this.updateTimeline();
+
       },
       addKeyframe: function() {
 
@@ -717,11 +719,13 @@ export default {
               width: keyframe.width + 'px'
             }
 
-            if (that.activeElementProps().border.enabled) {
+            if (that.activeElementProps().border.enabled &&
+              that.activeElementProps().border.show) {
               obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
             }
 
-            if (that.activeElementProps().opacity.enabled) {
+            if (that.activeElementProps().opacity.enabled &&
+              that.activeElementProps().opacity.show) {
               obj.opacity = keyframe.opacity;
             }
 
