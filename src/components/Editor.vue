@@ -179,6 +179,7 @@
             <label>Properties:</label>
             <select class="form-control" v-model="properties_select">
               <option>Background Color</option>
+              <option>Border</option>
               <option>Height</option>
               <option>Left</option>
               <option>Opacity</option>
@@ -328,7 +329,7 @@ export default {
           },
           border: {
             enabled: true,
-            show: true,
+            show: false,
             color: "#000000",
             width: 1
           },
@@ -441,11 +442,10 @@ export default {
 
       },
       addProperty: function() {
-
-        if (this.properties_select === "Background Color") {
+        if (this.properties_select === "Border") {
           this.elements[this.elementActiveIndex].properties.
-          this.backgroundColor.show = true;
-
+          this.activeElementProps().border.show = true;
+          console.log(this.activeElementProps().border.show)
         }
 
       },
