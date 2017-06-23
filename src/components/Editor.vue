@@ -478,7 +478,7 @@ export default {
           backgroundColor: this.activeElementProps().backgroundColor.value,
           borderBottomWidth: this.activeElementProps().border.bottomWidth,
           borderColor: this.activeElementProps().border.color,
-          borderWidth: this.activeElementProps().border.width,
+          borderWidth: this.activeElementProps().border.width + "px",
           duration: 0,
           height: this.activeElementProps().height.value,
           left: this.activeElementProps().left.value,
@@ -745,6 +745,7 @@ export default {
 
             if (that.activeElementProps().border.enabled &&
               that.activeElementProps().border.show) {
+              console.log(keyframe.borderWidth)
               obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
               //obj.border = keyframe.borderBottomWidth + " solid " + keyframe.borderColor;
             }
