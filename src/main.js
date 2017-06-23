@@ -2,6 +2,9 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import ButtonDropdown from './components/button-dropdown'
+
+Vue.component('button-dropdown', ButtonDropdown)
 
 Vue.config.productionTip = false
 

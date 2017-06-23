@@ -188,16 +188,17 @@
           </div>
         </div>
         <div class="animation-property">
-          <div class="form-group">
+          <!--<div class="form-group">
             <label>Properties:</label>
             <select class="form-control" v-model="properties_select">
               <option>Background Color</option>
               <option>Border</option>
               <option>Opacity</option>
             </select>
-          </div>
+          </div>-->
           <div class="form-group">
-            <button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>
+            <!--<button type="button" class="btn btn-success btn-block add-property-btn" v-on:click="addProperty()">Add Property</button>-->
+            <button-dropdown :items="['Background Color', 'Border', 'Opacity']" v-on:clickItem="addProperty" label="Add Component"></button-dropdown>
           </div>
         </div>
       </div>
@@ -253,7 +254,7 @@ import 'jquery-ui/ui/widgets/draggable.js';
 import 'jquery-mousewheel';
 import contextMenu from 'vue-context-menu';
 import rgbHex from 'rgb-hex';
-import '../Slider.css'
+import '../Slider.css';
 
 export default {
   components: { contextMenu },
@@ -286,6 +287,7 @@ export default {
           },
           opacity: {
             enabled: true,
+            show: true,
             value: 1.0
           },
           rotation: {
@@ -352,6 +354,7 @@ export default {
           },
           opacity: {
             enabled: true,
+            show: true,
             value: 1.0
           },
           rotation: {
@@ -414,6 +417,8 @@ export default {
           value: 200
         },
         opacity: {
+          enabled: true,
+          show: true,
           value: 1.0
         },
         rotation: {
@@ -426,13 +431,15 @@ export default {
           value: 100
         }
       },
-      properties_select: "",
       rotation: 0,
       secondToPixels: 100,
       showCode: false,
       timelineBars: 100,
       totalSeconds: 3,
-      activeElement() {
+    }
+  },
+  methods: {
+    activeElement() {
         return this.elements[this.elementActiveIndex];
       },
       activeElementProps() {
@@ -451,9 +458,12 @@ export default {
         this.updateTimeline();
 
       },
-      addProperty: function() {
-        if (this.properties_select === "Border") {
+      addProperty: function(item) {
+
+        if (item === "Border") {
+
           this.activeElementProps().border.show = true;
+
         }
 
         this.updateTimeline();
@@ -528,6 +538,9 @@ export default {
 
         }, 1);
 
+      },
+      clicked: function(item) {
+        alert(item)
       },
       fancyTimeFormat: function(time) {   
         // Hours, minutes and seconds
@@ -829,30 +842,29 @@ export default {
         this.totalSeconds = this.keyframes()[this.keyframes().length - 1].time;
 
       }
-    }
-    },
-    mounted() {
-      var that = this;
+  },
+  mounted() {
+    var that = this;
 
-      $('.color-bar').draggable({
-        axis: 'x',
-        containment: ".timeline",
-        grid: [ 1 ],
-        drag: function( event, ui ) {
+    $('.color-bar').draggable({
+      axis: 'x',
+      containment: ".timeline",
+      grid: [ 1 ],
+      drag: function( event, ui ) {
 
-          that.tl.progress( ui.position.left / (that.totalSeconds * that.secondToPixels) );
+        that.tl.progress( ui.position.left / (that.totalSeconds * that.secondToPixels) );
 
-        }
-      });
+      }
+    });
 
-      this.attachKeyframeDrag();
+    this.attachKeyframeDrag();
 
-      this.tl = new TimelineLite();
-      
-      this.updateTimeline();
+    this.tl = new TimelineLite();
+    
+    this.updateTimeline();
 
-      this.setLayout();
+    this.setLayout();
 
-    }
+  }
 }
 </script>
