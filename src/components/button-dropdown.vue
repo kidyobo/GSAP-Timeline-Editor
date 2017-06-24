@@ -24,6 +24,7 @@ button {
 <script>
 import Vue from 'vue';
 import FilterList from './filter-list.vue';
+import offClick from 'off-click';
 
 Vue.component('filter-list', FilterList);
 
@@ -49,18 +50,18 @@ export default {
     var that = this;
     var buttonDropdownElem = document.getElementById('vue-button-dropdown');
 
-    /*offClick(buttonDropdownElem, function() {
+    offClick(buttonDropdownElem, function() {
       that.showMenu = false;
-    })*/
+    })
 
     //I'm using "click" but it works with any event
-    document.addEventListener('click', function(event) {
+    /*document.addEventListener('click', function(event) {
       var isClickInside = buttonDropdownElem.contains(event.target);
 
       if (!isClickInside) {
         that.showMenu = false;
       }
-    });
+    });*/
   }
 }
 </script>
