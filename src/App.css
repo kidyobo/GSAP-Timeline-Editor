@@ -146,6 +146,10 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
+input::-webkit-color-swatch {
+    border: none;
+}
+
 .input-label {
     padding-top: 5px;
     padding-right: 10px;

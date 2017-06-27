@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style scoped>
+<style>
 button {
   color: #333;
   width: 100%;
@@ -19,11 +19,31 @@ button {
   background-color: #333;
   padding: 5px;
 }
+
+.drop input {
+  border-radius: 25px;
+  color: #333;
+  margin: auto;
+}
+
+.drop ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.drop li {
+  padding: 5px 10px;
+}
+
+.drop li a {
+  color: #fff;
+}
 </style>
 
 <script>
 import Vue from 'vue';
-import FilterList from './filter-list.vue';
+//import FilterList from './filter-list';
+import FilterList from 'vue-filter-list';
 import offClick from 'off-click';
 
 Vue.component('filter-list', FilterList);
@@ -52,16 +72,7 @@ export default {
 
     offClick(buttonDropdownElem, function() {
       that.showMenu = false;
-    })
-
-    //I'm using "click" but it works with any event
-    /*document.addEventListener('click', function(event) {
-      var isClickInside = buttonDropdownElem.contains(event.target);
-
-      if (!isClickInside) {
-        that.showMenu = false;
-      }
-    });*/
+    });
   }
 }
 </script>

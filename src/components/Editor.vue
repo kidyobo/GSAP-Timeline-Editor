@@ -174,6 +174,32 @@
             </div>
           </div>
 
+          <!--<div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Border Top
+                </div>
+                <div class="rotation-input">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.topWidth" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Border Left
+                </div>
+                <div class="rotation-input">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.leftWidth" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="form-group row">
             <div class="col-xs-12">
               <div class="flex">
@@ -186,6 +212,61 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group row">
+            <div class="col-xs-12">
+              <div class="flex">
+                <div class="input-label">
+                  Border Right
+                </div>
+                <div class="rotation-input">
+                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.rightWidth" v-on:keyup="addKeyframe()">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  T
+                </div>
+                <div>
+                  <input type="color" class="form-control" v-model="activeElementProps().border.topColor" v-on:change="addKeyframe()" />
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  R
+                </div>
+                <div>
+                  <input type="color" class="form-control" v-model="activeElementProps().border.rightColor" v-on:change="addKeyframe()" />
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  B
+                </div>
+                <div>
+                  <input type="color" class="form-control" v-model="activeElementProps().border.bottomColor" v-on:change="addKeyframe()" />
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="flex">
+                <div class="input-label">
+                  L
+                </div>
+                <div>
+                  <input type="color" class="form-control" v-model="activeElementProps().border.leftColor" v-on:change="addKeyframe()" />
+                </div>
+              </div>
+            </div>
+          </div>-->
         </div>
         <div class="animation-property">
           <!--<div class="form-group">
@@ -283,7 +364,7 @@ export default {
             value: 100
           },
           left: {
-            value: 200
+            value: 0
           },
           opacity: {
             enabled: true,
@@ -339,10 +420,17 @@ export default {
             value: "#000000"
           },
           border: {
+            bottomColor: "#000000",
             bottomWidth: 1,
-            enabled: true,
-            show: false,
             color: "#000000",
+            enabled: true,
+            leftColor: "#000000",
+            leftWidth: 1,
+            rightColor: "#000000",
+            rightWidth: 1,
+            show: false,
+            topColor: "#000000",
+            topWidth: 1,
             width: 1
           },
           height: {
@@ -350,7 +438,7 @@ export default {
             value: 100
           },
           left: {
-            value: 200
+            value: 0
           },
           opacity: {
             enabled: true,
@@ -414,7 +502,7 @@ export default {
           value: 100
         },
         left: {
-          value: 200
+          value: 0
         },
         opacity: {
           enabled: true,
@@ -745,7 +833,7 @@ export default {
 
             if (that.activeElementProps().border.enabled &&
               that.activeElementProps().border.show) {
-              console.log(keyframe.borderWidth)
+
               obj.border = keyframe.borderWidth + " solid " + keyframe.borderColor;
               //obj.border = keyframe.borderBottomWidth + " solid " + keyframe.borderColor;
             }
