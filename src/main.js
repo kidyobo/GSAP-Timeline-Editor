@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import ButtonDropdown from './components/button-dropdown'
+import vmodal from 'vue-js-modal'
+ 
+Vue.use(vmodal)
 
 Vue.component('button-dropdown', ButtonDropdown)
 

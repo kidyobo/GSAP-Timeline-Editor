@@ -11,28 +11,29 @@
       </div>
       <div class="code-section header-padding text-right">
         <ul class="site-nav list-inline">
-          <li><span v-on:click="showEmbedCode()" class="code">Code</span>
-            <div class="relative">
-              <div class="embed-code" v-if="showCode">
-                var tl = new TimelineLite();
-                    
-                <p v-for="(keyframe, index) in keyframes()" v-if="index !== 0">
-                tl.to($('#el'), {{keyframe.duration}}, {
-                    backgroundColor: "{{keyframe.backgroundColor}}",
-                    border: "{{keyframe.borderWidth}} solid {{keyframe.borderColor}}",
-                    height: "{{keyframe.height}}px",
-                    left: {{keyframe.left}},
-                    opacity: {{keyframe.opacity}},
-                    rotation: {{keyframe.rotation}},
-                    top: {{keyframe.top}},
-                    width: "{{keyframe.width + 'px'}}"
-                });
-                </p>
-
-              </div>
-            </div>
-          </li>
+          <li><span v-on:click="showModal()" class="code">Code</span></li>
         </ul>
+
+        <modal name="code-modal">
+          <h1 class="text-center">Embed Code</h1>
+          <div class="embed-code" v-if="showCode">
+            var tl = new TimelineLite();
+                
+            <p v-for="(keyframe, index) in keyframes()" v-if="index !== 0">
+            tl.to($('#el'), {{keyframe.duration}}, {
+                backgroundColor: "{{keyframe.backgroundColor}}",
+                border: "{{keyframe.borderWidth}} solid {{keyframe.borderColor}}",
+                height: "{{keyframe.height}}px",
+                left: {{keyframe.left}},
+                opacity: {{keyframe.opacity}},
+                rotation: {{keyframe.rotation}},
+                top: {{keyframe.top}},
+                width: "{{keyframe.width + 'px'}}"
+            });
+            </p>
+
+          </div>
+        </modal>
       </div>
     </header>
     <div class="wrapper">
@@ -174,57 +175,7 @@
             </div>
           </div>
 
-          <!--<div class="form-group row">
-            <div class="col-xs-12">
-              <div class="flex">
-                <div class="input-label">
-                  Border Top
-                </div>
-                <div class="rotation-input">
-                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.topWidth" v-on:keyup="addKeyframe()">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-xs-12">
-              <div class="flex">
-                <div class="input-label">
-                  Border Left
-                </div>
-                <div class="rotation-input">
-                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.leftWidth" v-on:keyup="addKeyframe()">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-xs-12">
-              <div class="flex">
-                <div class="input-label">
-                  Border Bottom
-                </div>
-                <div class="rotation-input">
-                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.bottomWidth" v-on:keyup="addKeyframe()">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <div class="col-xs-12">
-              <div class="flex">
-                <div class="input-label">
-                  Border Right
-                </div>
-                <div class="rotation-input">
-                  <input class="form-control input-sm input-number pull-right" type="number" v-model="activeElementProps().border.rightWidth" v-on:keyup="addKeyframe()">
-                </div>
-              </div>
-            </div>
-          </div>
+          <!--
           <div class="form-group row">
             <div class="col-xs-6">
               <div class="flex">
@@ -521,12 +472,18 @@ export default {
       },
       rotation: 0,
       secondToPixels: 100,
-      showCode: false,
+      showCode: true,
       timelineBars: 100,
       totalSeconds: 3,
     }
   },
   methods: {
+    showModal () {
+    this.$modal.show('code-modal');
+  },
+  hideModal () {
+    this.$modal.hide('code-modal');
+  },
     activeElement() {
         return this.elements[this.elementActiveIndex];
       },

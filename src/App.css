@@ -107,19 +107,23 @@ body {
 
 .embed-code {
     background-color: #424242;
+    bottom: 0;
     color: #fff;
     height: 200px;
     overflow: scroll;
     padding: 15px;
     position: absolute;
     right: 0;
-    top: 20px;
-    width: 300px;
+    width: 100%;
     z-index: 1;
 }
 
 .flex {
     display: flex;
+}
+
+h1 {
+    color: #333;
 }
 
 header.editor-header {
