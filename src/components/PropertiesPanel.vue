@@ -119,7 +119,7 @@
       </div>
       <div class="animation-property">
         <div class="form-group">
-          <button-dropdown :items="['Background Color', 'Border', 'Opacity']" v-on:clickItem="addProperty" label="Add Component"></button-dropdown>
+          <button-dropdown :items="['Border']" v-on:clickItem="addProperty" label="Add Component"></button-dropdown>
         </div>
       </div>
     </div>

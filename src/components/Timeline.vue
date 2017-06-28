@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   props: ['keyframes', 'keyframeProperties'],
   data() {
@@ -54,7 +56,41 @@ export default {
       ret += "" + secs;
 
       return ret;
-    }
+    },
+    setTimelineScroll() {
+
+      $('.timeline').mousewheel(function(e) {
+        // if delta y is up
+        if (e.deltaY === 1) {
+
+          that.secondToPixels += 1;
+
+          if ((that.secondToPixels % 20) === 0) {
+
+              that.incrementTime -= 1;
+
+          }
+
+        // if delta y is down
+        } else if (e.deltaY === -1) {
+
+          that.secondToPixels -= 1;
+
+          if ((that.secondToPixels % 20) === 0) {
+
+              that.incrementTime += 1;
+
+          }
+
+        }
+      });
+
+    },
+  },
+  mounted() {
+    var that = this;
+
+    
   }
 }
 </script>
